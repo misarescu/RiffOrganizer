@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface buttonProps {
+type ButtonProps = {
   children: string;
   disabled?: boolean;
   outline?: boolean;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-}
+};
 
 const ButtonShapeClass = `rounded-md py-2 px-4 text-base font-bold m-4`;
 
@@ -24,7 +24,7 @@ const ButtonOutlinedClass = `border-2 dark:border border-blue-300 hover:border-t
   dark:bg-transparent dark:text-blue-300 dark:hover:bg-blue-300 dark:hover:text-blue-800
   ${ButtonShapeClass}`;
 
-function Button(props: buttonProps) {
+function Button(props: ButtonProps) {
   const buttonClass = props.disabled
     ? `${ButtonDisabledClass}`
     : props.outline
