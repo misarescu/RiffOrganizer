@@ -4,6 +4,7 @@ type ButtonProps = {
   children: string;
   disabled?: boolean;
   outline?: boolean;
+  special?: boolean;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
@@ -24,6 +25,8 @@ const ButtonOutlinedClass = `border-2 dark:border border-blue-300 hover:border-t
   dark:bg-transparent dark:text-blue-300 dark:hover:bg-blue-300 dark:hover:text-blue-800
   ${ButtonShapeClass}`;
 
+const ButtonSpecialClass = `m-1 border-2 dark:border-transparent border-blue-300 hover:border-transparent`;
+
 function Button(props: ButtonProps) {
   const buttonClass = props.disabled
     ? `${ButtonDisabledClass}`
@@ -35,7 +38,9 @@ function Button(props: ButtonProps) {
     <button
       disabled={props.disabled}
       onClick={props.onClick}
-      className={` ${buttonClass} ${props.className}`}>
+      className={` ${buttonClass} ${props.special ? ButtonSpecialClass : ''} ${
+        props.className
+      }`}>
       {props.children}
     </button>
   );
