@@ -9,7 +9,7 @@ type ButtonProps = {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const ButtonShapeClass = `rounded-md py-2 px-4 text-base font-bold m-4`;
+const ButtonShapeClass = `rounded-md py-2 px-4 text-base font-bold`;
 
 const ButtonEnabledClass = `shadow-none hover:shadow-md dark:hover:shadow-inner
   bg-blue-500 text-blue-100 hover:bg-blue-700 hover:text-blue-100
@@ -25,7 +25,7 @@ const ButtonOutlinedClass = `border-2 dark:border border-blue-300 hover:border-t
   dark:bg-transparent dark:text-blue-300 dark:hover:bg-blue-300 dark:hover:text-blue-800
   ${ButtonShapeClass}`;
 
-const ButtonSpecialClass = `m-1 border-2 dark:border-transparent border-blue-300 hover:border-transparent`;
+const ButtonSpecialClass = `border-2 dark:border-transparent border-blue-300 hover:border-transparent`;
 
 function Button(props: ButtonProps) {
   const buttonClass = props.disabled
