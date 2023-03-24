@@ -9,7 +9,7 @@ type ButtonProps = {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const ButtonShapeClass = `rounded-md py-2 px-4 text-base font-bold`;
+const ButtonShapeClass = `rounded-md py-0.5 px-2 md:py-2 md:px-4 text-xs md:text-base font-bold`;
 
 const ButtonEnabledClass = `shadow-none hover:shadow-md dark:hover:shadow-inner
   bg-blue-500 text-blue-100 hover:bg-blue-700 hover:text-blue-100
