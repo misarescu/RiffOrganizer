@@ -14,15 +14,11 @@ import UserPage from './pages/User';
 
 function App() {
   return (
-    <div className=''>
-      <NavBar />
-      <Button>Start Riffing</Button>
-      <h1 className='text-4xl font-extrabold dark:text-white'>
-        Welcome to Riff Organizer!
-      </h1>
-      <p className='text-3xl font-bold underline'>
-        The place where you will start your guitar journey!
-      </p>
+    <div className='bg-slate-50 dark:bg-slate-900 h-auto'>
+      <div className='bg-slate-200 dark:bg-slate-800 min-h-screen w-screen md:w-4/5 mx-auto md:shadow-2xl md:shadow-slate-800/50  md:dark:shadow-slate-200/20'>
+        <NavBar />
+        <HomePage />
+      </div>
     </div>
   );
 }
