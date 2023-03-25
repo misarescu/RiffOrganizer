@@ -11,7 +11,7 @@ function Footer(props: FooterProps) {
   return (
     <footer className={`${FooterClass} ${props.className}`}>
       <p>
-        This is a side project with the aim to help keep track of guitar
+        This is a side project with the aim to help keep track of your guitar
         progress
       </p>
       <p>
