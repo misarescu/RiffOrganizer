@@ -4,6 +4,9 @@ import defaultUserImgUrl from '../../assets/DefaultUserIcon.svg';
 import Button from './Button';
 import Search from './Search';
 
+// maybe a burger button could be better than the user profile
+// import burgerMenuImgUrl from '../../assets/BurgerMenu.svg';
+
 const USER_NAME = 'Mihai Smecheru';
 
 function NavBar() {
@@ -19,6 +22,7 @@ function NavBar() {
         ) : (
           // placeholder image for now
           // TODO:should be fetched from the db
+
           <img
             src={defaultUserImgUrl}
             className='h-12 w-12 bg-slate-200 rounded-full p-1'
@@ -47,6 +51,7 @@ function NavBar() {
         </div>
       ) : (
         <Button
+          special
           className='grow-0 shrink-0'
           onClick={() => setUserLoggedIn(false)}>
           Sign Out
