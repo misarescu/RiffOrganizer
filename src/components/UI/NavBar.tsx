@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logoImgUrl from '../../assets/Logo.png';
 import defaultUserImgUrl from '../../assets/DefaultUserIcon.svg';
 import Button from './Button';
@@ -12,7 +13,18 @@ const USER_NAME = 'Mihai Smecheru';
 function NavBar() {
   // set locally for now for prototyping purposes
   // TODO: set auth with the db
-  const [userLoggedIn, setUserLoggedIn] = useState(true);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
+
+  function logInHandler() {
+    setUserLoggedIn(true);
+    navigate('/user');
+  }
+  function logOutHandler() {
+    setUserLoggedIn(false);
+    navigate('/');
+  }
 
   return (
     <nav className='w-full h-auto bg-blue-500 flex flex-row p-2 space-x-2 justify-between items-center'>
@@ -45,15 +57,12 @@ function NavBar() {
             }}>
             Sign Up
           </Button>
-          <Button special onClick={() => setUserLoggedIn(true)}>
+          <Button special onClick={logInHandler}>
             Sign In
           </Button>
         </div>
       ) : (
-        <Button
-          special
-          className='grow-0 shrink-0'
-          onClick={() => setUserLoggedIn(false)}>
+        <Button special className='grow-0 shrink-0' onClick={logOutHandler}>
           Sign Out
         </Button>
       )}
