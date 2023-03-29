@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host",
     "build:css": "tailwindcss --minify",
-    "build": "tailwindcss --minify && tsc && vite build",
+    "dev": "yarn build:css && vite --host",
+    "build": "yarn build:css && tsc && vite build",
     "preview": "vite preview --host"
   },
   "dependencies": {
