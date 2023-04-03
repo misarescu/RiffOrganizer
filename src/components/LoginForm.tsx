@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import Button from './UI/Button';
 import { uiActions } from '../store/ui-slice';
 import { userActions } from '../store/user-slice';
+import { Form } from 'react-router-dom';
+import FormInput from './UI/FormInput';
+import FormButtonList from './UI/FormButtonList';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -27,8 +30,18 @@ function LoginForm() {
 
   return isVisible ? (
     <Modal title='Enter your login credentials' onClick={closeModalHandler}>
-      <p>Login form</p>
-      <Button onClick={loginHandler}>Log In</Button>
+      <Form className=' min-w-fit w-1/2 mx-auto'>
+        <FormInput inputLabel='Email' inputId='user-email' inputType='email' />
+        <FormInput
+          inputLabel='Password'
+          inputId='user-password'
+          inputType='password'
+        />
+        <FormButtonList>
+          <Button outline>Forgot password</Button>
+          <Button onClick={loginHandler}>Log In</Button>
+        </FormButtonList>
+      </Form>
     </Modal>
   ) : null;
 }
