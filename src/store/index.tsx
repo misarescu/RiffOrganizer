@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { supabaseReducer } from './supabase-slice';
 import { userReducer } from './user-slice';
 
 const store = configureStore({
-  reducer: { API: supabaseReducer, user: userReducer },
+  reducer: { user: userReducer },
 });
 
 export default store;
