@@ -34,8 +34,10 @@ function SignupForm() {
           inputType='password'
         />
         <FormButtonList>
-          <Button outline>Cancel</Button>
-          <Button>Log In</Button>
+          <Button outline onClick={closeModalHandler}>
+            Cancel
+          </Button>
+          <Button>Register</Button>
         </FormButtonList>
       </Form>
     </Modal>

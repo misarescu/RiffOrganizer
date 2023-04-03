@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Modal from './UI/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreStateType } from '../store';
@@ -9,33 +9,54 @@ import { userActions } from '../store/user-slice';
 import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
+import dbClient from '../API/dbClient';
 
 function LoginForm() {
+  const userEmail = useRef<HTMLInputElement>(null);
+  const userPassword = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isVisible = useSelector(
     (state: StoreStateType) => state.ui.isLoginFormVisible
   );
 
+  async function signInWithEmail() {
+    const { data, error } = await dbClient.auth.signInWithPassword({
+      email: userEmail.current?.value as string,
+      password: userPassword.current?.value as string,
+    });
+    if (error && error.status === 400) {
+      // bad request due to wrong credentials
+      alert(error.message);
+      return;
+    }
+    dispatch(uiActions.closeLoginForm());
+    dispatch(userActions.login());
+    navigate('/user');
+  }
+
   function closeModalHandler() {
     dispatch(uiActions.closeLoginForm());
   }
 
   function loginHandler() {
-    dispatch(uiActions.closeLoginForm());
-    dispatch(userActions.login());
-
-    navigate('/user');
+    signInWithEmail();
   }
 
   return isVisible ? (
     <Modal title='Enter your login credentials' onClick={closeModalHandler}>
       <Form className=' min-w-fit w-1/2 mx-auto'>
-        <FormInput inputLabel='Email' inputId='user-email' inputType='email' />
+        <FormInput
+          inputLabel='Email'
+          inputId='user-email'
+          inputType='email'
+          ref={userEmail}
+        />
         <FormInput
           inputLabel='Password'
           inputId='user-password'
           inputType='password'
+          ref={userPassword}
         />
         <FormButtonList>
           <Button outline>Forgot password</Button>
