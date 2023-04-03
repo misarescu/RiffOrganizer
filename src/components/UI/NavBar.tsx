@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../store/user-slice';
+import { uiActions } from '../../store/ui-slice';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { StoreStateType } from '../../store/index';
@@ -8,7 +9,6 @@ import logoImgUrl from '../../assets/Logo.png';
 import defaultUserImgUrl from '../../assets/DefaultUserIcon.svg';
 import Button from './Button';
 import Search from './Search';
-import dbClient from '../../API/dbClient';
 
 // maybe a burger button could be better than the user profile
 // import burgerMenuImgUrl from '../../assets/BurgerMenu.svg';
@@ -25,9 +25,13 @@ function NavBar() {
   const navigate = useNavigate();
 
   function logInHandler() {
-    dispatch(userActions.login());
-    navigate('/user');
+    dispatch(uiActions.openLoginForm());
   }
+
+  function signUpHandler() {
+    dispatch(uiActions.openSignupForm());
+  }
+
   function logOutHandler() {
     dispatch(userActions.logout());
     navigate('/');
@@ -58,20 +62,16 @@ function NavBar() {
       {userIsAuthenticated ? <Search /> : null}
       {!userIsAuthenticated ? (
         <div className='w-auto h-max flex justify-center items-center flex-row space-y-0 space-x-2 grow-0 shrink-0'>
-          <Button
-            special
-            onClick={() => {
-              alert('make a new account');
-            }}>
-            Sign Up
+          <Button special onClick={signUpHandler}>
+            Register
           </Button>
           <Button special onClick={logInHandler}>
-            Sign In
+            Log In
           </Button>
         </div>
       ) : (
         <Button special className='grow-0 shrink-0' onClick={logOutHandler}>
-          Sign Out
+          Log Out
         </Button>
       )}
     </nav>

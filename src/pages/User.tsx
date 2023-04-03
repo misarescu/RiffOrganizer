@@ -33,7 +33,7 @@ function UserPage() {
   ];
 
   return (
-    <div className='grid place-items-center indent-0 md:text-2xl text-slate-800 dark:text-slate-200 text-center font-serif'>
+    <div className='grid place-items-center '>
       {/* <Card>
         <p>Sorry you don't have any songs added yet</p>
       </Card> */}

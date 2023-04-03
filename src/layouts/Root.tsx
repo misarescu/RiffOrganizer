@@ -2,6 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import NavBar from '../components/UI/NavBar';
 import Footer from '../components/UI/Footer';
+import LoginForm from '../components/LoginForm';
+import SignupForm from '../components/SignupForm';
 
 function RootLayout() {
   return (
@@ -11,6 +13,8 @@ function RootLayout() {
           <NavBar />
           <Outlet />
         </div>
+        <LoginForm />
+        <SignupForm />
         <Footer className=' w-full flex-grow-0' />
       </div>
     </div>

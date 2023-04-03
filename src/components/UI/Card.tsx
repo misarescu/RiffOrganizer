@@ -8,9 +8,10 @@ type CardProps = {
 
 const CardClass = `border border-slate-800/20 shadow-slate-800/20 
                   dark:border-slate-200/20 dark:shadow-slate-200/30 
-                  dark:bg-slate-700/50
+                  dark:bg-slate-700 bg-slate-50
                   shadow-xl
-                  rounded-md w-3/4 md:w-1/2 my-4 md:my-6 flex flex-col`;
+                  rounded-md w-3/4 md:w-1/2 my-4 md:my-6 flex flex-col
+                  text-slate-800 dark:text-slate-200 md:text-2xl text-center font-serif indent-0`;
 
 function Card(props: CardProps) {
   return (
