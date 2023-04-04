@@ -6,7 +6,6 @@ type FormIntutType = {
   inputId: string;
 };
 
-// TODO: add a useInput hook from the udemy tutorial to handle the validation
 const FormInput = React.forwardRef(
   (props: FormIntutType, ref: React.LegacyRef<HTMLInputElement>) => {
     return (
