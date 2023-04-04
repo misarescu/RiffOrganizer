@@ -58,7 +58,6 @@ function NavBar() {
           {userIsAuthenticated ? USER_NAME : 'Riff Organizer'}
         </h1>
       </div>
-      {/* TODO: introduce a LogInForm component to handle the loging on and then navigate to the UserPage */}
       {userIsAuthenticated ? <Search /> : null}
       {!userIsAuthenticated ? (
         <div className='w-auto h-max flex justify-center items-center flex-row space-y-0 space-x-2 grow-0 shrink-0'>
