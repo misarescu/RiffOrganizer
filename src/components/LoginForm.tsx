@@ -10,8 +10,10 @@ import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import dbClient from '../API/dbClient';
+import { useGetUserDetails } from '../API/hooks/api-calls';
 
 function LoginForm() {
+  // const userDetails = useGetUserDetails();
   const userEmail = useRef<HTMLInputElement>(null);
   const userPassword = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
@@ -30,9 +32,14 @@ function LoginForm() {
       alert(error.message);
       return;
     }
+
+    if (data.user && data.user.role !== 'authenticated') {
+      alert('user is not authenticated correctly');
+      return;
+    }
     dispatch(uiActions.closeLoginForm());
     dispatch(userActions.login());
-    navigate('/user');
+    navigate(`/user/${data.user?.id}`);
   }
 
   function closeModalHandler() {

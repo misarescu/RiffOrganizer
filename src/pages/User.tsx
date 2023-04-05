@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Card from '../components/UI/Card';
 import Button from '../components/UI/Button';
+import dbClient from '../API/dbClient';
+import {
+  json,
+  redirect,
+  useLoaderData,
+  useRouteLoaderData,
+} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../store/user-slice';
+
+type UserDetailType = {
+  email: string;
+  full_name: string;
+};
 
 function UserPage() {
   const listOfMessages = [
@@ -32,6 +46,22 @@ function UserPage() {
     'Memento Mori - Lamb of God',
   ];
 
+  const userDetails = useLoaderData() as UserDetailType;
+  const dispatch = useCallback(useDispatch(), []);
+
+  useEffect(() => {
+    dispatch(
+      userActions.setUserInfo({
+        email: userDetails.email,
+        fullName: userDetails.full_name,
+      })
+    );
+    dispatch(userActions.login());
+    console.log(userDetails);
+  }, [userDetails, dispatch]);
+
+  console.log(userDetails);
+
   return (
     <div className='grid place-items-center '>
       {/* <Card>
@@ -48,3 +78,23 @@ function UserPage() {
 }
 
 export default UserPage;
+
+async function loadUserDetails(): Promise<Response> {
+  const { data: sessionData } = await dbClient.auth.getSession();
+  const currentSession = sessionData.session;
+  if (!currentSession) {
+    return redirect('/');
+  }
+  const userId = currentSession?.user.id;
+  const userQuery = await dbClient
+    .from('user_info')
+    .select('*')
+    .eq('id', userId);
+
+  console.log(userQuery);
+
+  return json({ ...userQuery.data?.at(0) });
+}
+export async function loader(): Promise<Response> {
+  return await loadUserDetails();
+}

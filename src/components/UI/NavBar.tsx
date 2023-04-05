@@ -9,6 +9,7 @@ import logoImgUrl from '../../assets/Logo.png';
 import defaultUserImgUrl from '../../assets/DefaultUserIcon.svg';
 import Button from './Button';
 import Search from './Search';
+import dbClient from '../../API/dbClient';
 
 // maybe a burger button could be better than the user profile
 // import burgerMenuImgUrl from '../../assets/BurgerMenu.svg';
@@ -19,6 +20,9 @@ function NavBar() {
   // get user authenticated status
   const userIsAuthenticated = useSelector(
     (state: StoreStateType) => state.user.isAuthenticated
+  );
+  const userName = useSelector(
+    (state: StoreStateType) => state.user.userInfo.fullName
   );
   const dispatch = useDispatch();
 
@@ -34,6 +38,7 @@ function NavBar() {
 
   function logOutHandler() {
     dispatch(userActions.logout());
+    dbClient.auth.signOut();
     navigate('/');
   }
 
@@ -53,9 +58,7 @@ function NavBar() {
         )}
 
         <h1 className='hidden md:inline-flex text-2xl text-bold font-semibold font-serif text-slate-800'>
-          {/* placeholder name for now 
-          TODO: should be fetched from the db */}
-          {userIsAuthenticated ? USER_NAME : 'Riff Organizer'}
+          {userIsAuthenticated ? userName : 'Riff Organizer'}
         </h1>
       </div>
       {userIsAuthenticated ? <Search /> : null}

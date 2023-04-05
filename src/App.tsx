@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import RootLayout from './layouts/Root';
 import HomePage from './pages/Home';
-import UserPage from './pages/User';
+import UserPage, { loader as userPageLoader } from './pages/User';
 import { Provider } from 'react-redux';
 import store from './store/index';
 
@@ -12,7 +12,9 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: 'user',
+        path: 'user/:userId',
+        id: 'user-page',
+        loader: userPageLoader,
         element: <UserPage />,
       },
     ],
