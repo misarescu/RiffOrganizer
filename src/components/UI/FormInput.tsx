@@ -5,6 +5,7 @@ type FormIntutType = {
   inputType: string;
   inputId: string;
   hasError?: boolean;
+  errorMessage?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
 };
@@ -27,6 +28,9 @@ const FormInput = React.forwardRef(
           </label>
         </div>
         <div className='md:w-2/3'>
+          {props.hasError ? (
+            <label className='text-red-500'>{props.errorMessage}</label>
+          ) : null}
           <input
             className={`${InputDefaultClass} ${
               props.hasError ? InputErrorClass : ''

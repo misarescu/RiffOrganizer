@@ -67,6 +67,7 @@ function LoginForm() {
           inputLabel='Email'
           inputId='user-email'
           inputType='email'
+          errorMessage='incorrect email format'
           hasError={emailInput.hasError}
           onChange={emailInput.onChangeHandler}
           onBlur={emailInput.onBlurHandler}
@@ -76,6 +77,7 @@ function LoginForm() {
           inputLabel='Password'
           inputId='user-password'
           inputType='password'
+          errorMessage='incorrect password'
           hasError={passwordInput.hasError}
           onChange={passwordInput.onChangeHandler}
           onBlur={passwordInput.onBlurHandler}

@@ -27,6 +27,17 @@ function SignupForm() {
     console.log('close sign up form');
   }
 
+  function formValidationCondition() {
+    return (
+      emailInput.isValid &&
+      fullNameInput.isValid &&
+      passwordInput.isValid &&
+      confirmPasswordInput.isValid
+    );
+  }
+
+  const formIsValid = formValidationCondition();
+
   return isVisible ? (
     <Modal title='Register with email' onClick={closeModalHandler}>
       <Form className=' min-w-fit w-1/2 mx-auto'>
@@ -34,6 +45,7 @@ function SignupForm() {
           inputLabel='Full Name'
           inputId='user-name'
           inputType='text'
+          errorMessage='Name cannot be empty'
           hasError={fullNameInput.hasError}
           onChange={fullNameInput.onChangeHandler}
           onBlur={fullNameInput.onBlurHandler}
@@ -42,6 +54,7 @@ function SignupForm() {
           inputLabel='Email'
           inputId='user-email'
           inputType='email'
+          errorMessage='incorrect email format'
           hasError={emailInput.hasError}
           onChange={emailInput.onChangeHandler}
           onBlur={emailInput.onBlurHandler}
@@ -50,6 +63,7 @@ function SignupForm() {
           inputLabel='Password'
           inputId='user-password'
           inputType='password'
+          errorMessage='Password cannot be empty'
           hasError={passwordInput.hasError}
           onChange={passwordInput.onChangeHandler}
           onBlur={passwordInput.onBlurHandler}
@@ -58,6 +72,7 @@ function SignupForm() {
           inputLabel='Confirm Password'
           inputId='user-confirm-password'
           inputType='password'
+          errorMessage='Passwords must match'
           hasError={confirmPasswordInput.hasError}
           onChange={confirmPasswordInput.onChangeHandler}
           onBlur={confirmPasswordInput.onBlurHandler}
@@ -66,7 +81,7 @@ function SignupForm() {
           <Button outline onClick={closeModalHandler}>
             Cancel
           </Button>
-          <Button>Register</Button>
+          <Button disabled={!formIsValid}>Register</Button>
         </FormButtonList>
       </Form>
     </Modal>
