@@ -2,12 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import Card from '../components/UI/Card';
 import Button from '../components/UI/Button';
 import dbClient from '../API/dbClient';
-import {
-  json,
-  redirect,
-  useLoaderData,
-  useRouteLoaderData,
-} from 'react-router-dom';
+import { json, redirect, useRouteLoaderData } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../store/user-slice';
 
@@ -46,7 +41,7 @@ function UserPage() {
     'Memento Mori - Lamb of God',
   ];
 
-  const userDetails = useLoaderData() as UserDetailType;
+  const userDetails = useRouteLoaderData('user-page') as UserDetailType;
   const dispatch = useCallback(useDispatch(), []);
 
   useEffect(() => {
@@ -79,22 +74,24 @@ function UserPage() {
 
 export default UserPage;
 
-async function loadUserDetails(): Promise<Response> {
+async function loadUserDetails(urlUserId: string): Promise<Response> {
   const { data: sessionData } = await dbClient.auth.getSession();
   const currentSession = sessionData.session;
   if (!currentSession) {
     return redirect('/');
   }
-  const userId = currentSession?.user.id;
+
   const userQuery = await dbClient
     .from('user_info')
     .select('*')
-    .eq('id', userId);
+    .eq('id', urlUserId);
 
-  console.log(userQuery);
+  if (userQuery.data?.length === 0) {
+    return redirect('/');
+  }
 
   return json({ ...userQuery.data?.at(0) });
 }
-export async function loader(): Promise<Response> {
-  return await loadUserDetails();
+export async function loader({ params }: any): Promise<Response> {
+  return await loadUserDetails(params.userId);
 }

@@ -1,7 +1,11 @@
 import React from 'react';
 import welcomeImgUrl from '../assets/WelcomePageImage.png';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../store/user-slice';
 
 function HomePage() {
+  const dispatch = useDispatch();
+  dispatch(userActions.resetUser());
   return (
     <div className='indent-0 md:text-2xl text-slate-800 dark:text-slate-200 text-center font-serif'>
       <img

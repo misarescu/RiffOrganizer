@@ -22,6 +22,9 @@ const userSlice = createSlice({
       state.userInfo.fullName = action.payload.fullName;
       state.userInfo.email = action.payload.email;
     },
+    resetUser(state) {
+      state = initialState;
+    },
   },
 });
 
