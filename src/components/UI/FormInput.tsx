@@ -12,7 +12,8 @@ type FormIntutType = {
 const InputDefaultClass =
   'dark:bg-slate-600 bg-slate-100 appearance-none border-2 border-slate-300 dark:border-slate-500 rounded w-full py-2 px-4 text-slate-800 dark:text-slate-100 leading-tight focus:outline-none focus:bg-slate-50 focus:border-blue-500 dark:focus:bg-slate-900';
 
-const InputErrorClass = 'dark:bg-red-200 bg-red-100 focus:border-red-500';
+const InputErrorClass =
+  'dark:bg-red-200 dark:text-slate-800 bg-red-100 focus:border-red-500 dark:focus:text-slate-100';
 
 const FormInput = React.forwardRef(
   (props: FormIntutType, ref: React.LegacyRef<HTMLInputElement>) => {
@@ -35,7 +36,6 @@ const FormInput = React.forwardRef(
             onChange={props.onChange}
             onBlur={props.onBlur}
             ref={ref}
-            // placeholder='Jane Doe'
           />
         </div>
       </div>
