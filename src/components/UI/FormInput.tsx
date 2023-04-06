@@ -4,7 +4,15 @@ type FormIntutType = {
   inputLabel: string;
   inputType: string;
   inputId: string;
+  hasError?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
 };
+
+const InputDefaultClass =
+  'dark:bg-slate-600 bg-slate-100 appearance-none border-2 border-slate-300 dark:border-slate-500 rounded w-full py-2 px-4 text-slate-800 dark:text-slate-100 leading-tight focus:outline-none focus:bg-slate-50 focus:border-blue-500 dark:focus:bg-slate-900';
+
+const InputErrorClass = 'dark:bg-red-200 bg-red-100 focus:border-red-500';
 
 const FormInput = React.forwardRef(
   (props: FormIntutType, ref: React.LegacyRef<HTMLInputElement>) => {
@@ -19,9 +27,13 @@ const FormInput = React.forwardRef(
         </div>
         <div className='md:w-2/3'>
           <input
-            className='dark:bg-slate-600 bg-slate-100 appearance-none border-2 border-slate-300 dark:border-slate-500 rounded w-full py-2 px-4 text-slate-800 dark:text-slate-100 leading-tight focus:outline-none focus:bg-slate-50 focus:border-blue-500 dark:focus:bg-slate-900'
+            className={`${InputDefaultClass} ${
+              props.hasError ? InputErrorClass : ''
+            }`}
             id={props.inputId}
             type={props.inputType}
+            onChange={props.onChange}
+            onBlur={props.onBlur}
             ref={ref}
             // placeholder='Jane Doe'
           />

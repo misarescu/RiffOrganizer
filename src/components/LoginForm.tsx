@@ -10,7 +10,7 @@ import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import dbClient from '../API/dbClient';
-import { useGetUserDetails } from '../API/hooks/api-calls';
+import useInput from './hooks/use-input';
 
 function LoginForm() {
   // const userDetails = useGetUserDetails();
@@ -21,6 +21,16 @@ function LoginForm() {
   const isVisible = useSelector(
     (state: StoreStateType) => state.ui.isLoginFormVisible
   );
+
+  const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const emailInput = useInput((value: string) => mailFormat.test(value.trim()));
+  const passwordInput = useInput((value: string) => value.trim() !== '');
+
+  function formValidationCondition() {
+    return emailInput.isValid && passwordInput.isValid;
+  }
+
+  const formIsValid = formValidationCondition();
 
   async function signInWithEmail() {
     const { data, error } = await dbClient.auth.signInWithPassword({
@@ -57,17 +67,25 @@ function LoginForm() {
           inputLabel='Email'
           inputId='user-email'
           inputType='email'
+          hasError={emailInput.hasError}
+          onChange={emailInput.onChangeHandler}
+          onBlur={emailInput.onBlurHandler}
           ref={userEmail}
         />
         <FormInput
           inputLabel='Password'
           inputId='user-password'
           inputType='password'
+          hasError={passwordInput.hasError}
+          onChange={passwordInput.onChangeHandler}
+          onBlur={passwordInput.onBlurHandler}
           ref={userPassword}
         />
         <FormButtonList>
           <Button outline>Forgot password</Button>
-          <Button onClick={loginHandler}>Log In</Button>
+          <Button onClick={loginHandler} disabled={!formIsValid}>
+            Log In
+          </Button>
         </FormButtonList>
       </Form>
     </Modal>
