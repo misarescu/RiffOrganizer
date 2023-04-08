@@ -33,6 +33,9 @@ const songsSlice = createSlice({
     closeSongForm(state) {
       state.isSongFormVisible = false;
     },
+    setSongList(state, action) {
+      state.songList = action.payload.songList;
+    },
   },
 });
 

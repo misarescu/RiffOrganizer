@@ -5,6 +5,7 @@ import UserPage, { loader as userPageLoader } from './pages/User';
 import { Provider } from 'react-redux';
 import store from './store/index';
 
+// TODO: add form actions for the form submissions to work with reac-router-dom
 const router = createBrowserRouter([
   {
     path: '/',

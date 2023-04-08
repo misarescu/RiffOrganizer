@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { userActions } from '../store/user-slice';
 import AddSongForm from '../components/AddSongForm';
 import { songsActions } from '../store/songs-slice';
+import Section from '../components/Section';
 
 type UserData = {
   email: string;
@@ -19,7 +20,7 @@ type UserData = {
     sections?: {
       name: string;
       status: string;
-    };
+    }[];
   }[];
 };
 
@@ -36,6 +37,11 @@ function UserPage() {
       })
     );
     dispatch(userActions.login());
+    dispatch(
+      songsActions.setSongList({
+        songList: userData.songs,
+      })
+    );
     console.log(userData);
   }, [userData]);
 
@@ -61,7 +67,15 @@ function UserPage() {
               key={song.id}
               title={`${song.song_name} - ${song.artist_name}`}>
               <p>Your progress:</p>
-              <Button>Add Section</Button>
+              <br />
+              <ul className='flex flex-wrap w-full gap-1 md:gap-2 '>
+                {song.sections?.map((section) => (
+                  // for some reason rounded here needs to be lg not md
+                  <li className='rounded-lg w-fit h-fit'>
+                    <Section name={section.name} status={section.status} />
+                  </li>
+                ))}
+              </ul>
             </Card>
           ))
         )}
