@@ -1,7 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+type SectionType = {
+  id: string;
+  name: string;
+  status: string;
+};
+
+type SongType = {
+  id: string;
+  artist_name: string;
+  song_name: string;
+  sections: SectionType[];
+};
+
+type SongsInitialStateType = {
+  isSongFormVisible: boolean;
+  songList: SongType[];
+};
+
+const initialState: SongsInitialStateType = {
   isSongFormVisible: false,
+  songList: [],
 };
 
 const songsSlice = createSlice({

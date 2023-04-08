@@ -5,6 +5,7 @@ const initialState = {
   userInfo: {
     fullName: '',
     email: '',
+    userId: '',
   },
 };
 
@@ -21,6 +22,7 @@ const userSlice = createSlice({
     setUserInfo(state, action) {
       state.userInfo.fullName = action.payload.fullName;
       state.userInfo.email = action.payload.email;
+      state.userInfo.userId = action.payload.userId;
     },
     resetUser(state) {
       state = initialState;
