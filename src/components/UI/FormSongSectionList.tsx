@@ -9,7 +9,9 @@ function FormSongSectionList(props: { children: React.ReactNode }) {
         </p>
       </div>
       <div className='md:w-2/3  flex justify-between flex-wrap space-x-2 space-y-2'>
-        <ul className='flex flex-wrap w-full gap-6'>{props.children}</ul>
+        <ul className='flex flex-wrap w-full gap-4 md:gap-6'>
+          {props.children}
+        </ul>
       </div>
     </div>
   );

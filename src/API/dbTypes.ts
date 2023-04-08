@@ -17,7 +17,7 @@ export interface Database {
           status: string | null;
         };
         Insert: {
-          id: string;
+          id?: string;
           name?: string | null;
           song_id: string;
           status?: string | null;

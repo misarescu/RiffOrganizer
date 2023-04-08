@@ -10,6 +10,9 @@ import Button from './UI/Button';
 import useInput from './hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
+import dbClient from '../API/dbClient';
+
+type SectionType = { name?: string; status?: string; song_id: string };
 
 function AddSongForm() {
   const songNameInput = useInput((value: string) => value.trim() !== '');
@@ -20,29 +23,56 @@ function AddSongForm() {
   const sectionList = [
     { ref: useRef<HTMLInputElement>(null), name: 'Intro' },
     { ref: useRef<HTMLInputElement>(null), name: 'Verse' },
-    { ref: useRef<HTMLInputElement>(null), name: 'Chorus' },
-    { ref: useRef<HTMLInputElement>(null), name: 'Outro' },
     { ref: useRef<HTMLInputElement>(null), name: 'Pre-Chorus' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Chorus' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Bridge' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Outro' },
   ];
 
   const dispatch = useDispatch();
   const isVisible = useSelector(
     (state: StoreStateType) => state.songs.isSongFormVisible
   );
+  const userId = useSelector(
+    (state: StoreStateType) => state.user.userInfo.userId
+  );
+
+  function formValidationCondition() {
+    return songNameInput.isValid && artistNameInput.isValid;
+  }
+
+  const formIsValid = formValidationCondition();
 
   function closeModalHandler() {
     dispatch(songsActions.closeSongForm());
   }
 
-  function addSongHandler() {
-    console.table(
-      sectionList.map((section) => {
-        return {
-          name: section.name,
-          checked: section.ref.current?.checked,
-        };
+  async function addSongHandler() {
+    const { data: songsData, error: songsError } = await dbClient
+      .from('songs')
+      .insert({
+        artist_name: artistName.current?.value.trim(),
+        song_name: songName.current?.value.trim(),
+        user_id: userId,
       })
-    );
+      .select();
+
+    const songId = songsData?.at(0)?.id;
+
+    const selectedSections: SectionType[] = sectionList
+      .filter((section) => section.ref.current?.checked === true) // only desired sections
+      .map((section) => {
+        return {
+          song_id: songId,
+          name: section.name,
+          status: 'not started',
+        } as SectionType;
+      });
+
+    const { data: sectionsData, error: sectionsError } = await dbClient
+      .from('sections')
+      .insert(selectedSections)
+      .select();
   }
 
   return isVisible ? (
@@ -71,14 +101,20 @@ function AddSongForm() {
 
         <FormSongSectionList>
           {sectionList.map((section) => (
-            <FormSongSection name={section.name} ref={section.ref} />
+            <FormSongSection
+              key={section.name}
+              name={section.name}
+              ref={section.ref}
+            />
           ))}
         </FormSongSectionList>
         <FormButtonList>
           <Button outline onClick={closeModalHandler}>
             Cancel
           </Button>
-          <Button onClick={addSongHandler}>Add Song</Button>
+          <Button onClick={addSongHandler} disabled={!formIsValid}>
+            Add Song
+          </Button>
         </FormButtonList>
       </Form>
     </Modal>
