@@ -31,21 +31,24 @@ export interface Database {
       };
       songs: {
         Row: {
+          artist_name: string | null;
           created_at: string | null;
           id: string;
-          name: string | null;
+          song_name: string | null;
           user_id: string;
         };
         Insert: {
+          artist_name?: string | null;
           created_at?: string | null;
           id?: string;
-          name?: string | null;
+          song_name?: string | null;
           user_id: string;
         };
         Update: {
+          artist_name?: string | null;
           created_at?: string | null;
           id?: string;
-          name?: string | null;
+          song_name?: string | null;
           user_id?: string;
         };
       };
