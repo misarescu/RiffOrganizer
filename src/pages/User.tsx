@@ -18,6 +18,7 @@ type UserData = {
     artist_name: string;
     song_name: string;
     sections?: {
+      id: string;
       name: string;
       status: string;
     }[];
@@ -68,11 +69,19 @@ function UserPage() {
               title={`${song.song_name} - ${song.artist_name}`}>
               <p>Your progress:</p>
               <br />
+              {/* TODO: add an order/index property to be able 
+                        to change the order of the sections 🙂
+              */}
               <ul className='flex flex-wrap w-full gap-1 md:gap-2 '>
                 {song.sections?.map((section) => (
                   // for some reason rounded here needs to be lg not md
                   <li className='rounded-lg w-fit h-fit'>
-                    <Section name={section.name} status={section.status} />
+                    <Section
+                      key={section.id}
+                      id={section.id}
+                      name={section.name}
+                      status={section.status}
+                    />
                   </li>
                 ))}
               </ul>
@@ -105,6 +114,7 @@ async function loadUserData(urlUserId: string): Promise<Response> {
         artist_name,
         song_name,
         sections(
+          id,
           name,
           status
         )

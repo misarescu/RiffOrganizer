@@ -1,6 +1,7 @@
 import React from 'react';
 
 type SectionType = {
+  id: string;
   name: string;
   status: string;
 };
