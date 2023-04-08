@@ -9,12 +9,22 @@ import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
 import useInput from './hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
+import FormSongSection from './UI/FormSongSection';
 
 function AddSongForm() {
   const songNameInput = useInput((value: string) => value.trim() !== '');
   const artistNameInput = useInput((value: string) => value.trim() !== '');
   const songName = useRef<HTMLInputElement>(null);
   const artistName = useRef<HTMLInputElement>(null);
+
+  const sectionList = [
+    { ref: useRef<HTMLInputElement>(null), name: 'Intro' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Verse' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Chorus' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Outro' },
+    { ref: useRef<HTMLInputElement>(null), name: 'Pre-Chorus' },
+  ];
+
   const dispatch = useDispatch();
   const isVisible = useSelector(
     (state: StoreStateType) => state.songs.isSongFormVisible
@@ -22,6 +32,17 @@ function AddSongForm() {
 
   function closeModalHandler() {
     dispatch(songsActions.closeSongForm());
+  }
+
+  function addSongHandler() {
+    console.table(
+      sectionList.map((section) => {
+        return {
+          name: section.name,
+          checked: section.ref.current?.checked,
+        };
+      })
+    );
   }
 
   return isVisible ? (
@@ -49,17 +70,15 @@ function AddSongForm() {
         />
 
         <FormSongSectionList>
-          <Button>Intro</Button>
-          <Button>Chorus</Button>
-          <Button>Pre-chorus</Button>
-          <Button>Verse</Button>
-          <Button>Outro</Button>
+          {sectionList.map((section) => (
+            <FormSongSection name={section.name} ref={section.ref} />
+          ))}
         </FormSongSectionList>
         <FormButtonList>
           <Button outline onClick={closeModalHandler}>
             Cancel
           </Button>
-          <Button>Add Song</Button>
+          <Button onClick={addSongHandler}>Add Song</Button>
         </FormButtonList>
       </Form>
     </Modal>

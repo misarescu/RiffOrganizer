@@ -1,6 +1,6 @@
 import React from 'react';
 
-type FormIntutType = {
+type FormInputType = {
   inputLabel: string;
   inputType: string;
   inputId: string;
@@ -19,7 +19,7 @@ const InputErrorClass = `dark:bg-red-200 bg-red-100 appearance-none border-2 bor
    focus:outline-none focus:bg-slate-50 focus:border-red-500 dark:focus:bg-slate-900 dark:focus:text-slate-100`;
 
 const FormInput = React.forwardRef(
-  (props: FormIntutType, ref: React.LegacyRef<HTMLInputElement>) => {
+  (props: FormInputType, ref: React.LegacyRef<HTMLInputElement>) => {
     return (
       <div className='md:flex md:items-center mb-6'>
         <div className='md:w-1/3'>
