@@ -6,6 +6,7 @@ type ButtonProps = {
   outline?: boolean;
   special?: boolean;
   className?: string;
+  type?: 'submit' | 'button' | 'reset';
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
@@ -36,6 +37,7 @@ function Button(props: ButtonProps) {
 
   return (
     <button
+      type={props.type}
       disabled={props.disabled}
       onClick={props.onClick}
       className={` ${buttonClass} ${props.special ? ButtonSpecialClass : ''} ${

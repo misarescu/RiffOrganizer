@@ -74,6 +74,8 @@ function AddSongForm() {
       .from('sections')
       .insert(selectedSections)
       .select();
+
+    closeModalHandler();
   }
 
   return isVisible ? (
