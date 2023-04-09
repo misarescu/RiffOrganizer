@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { songsActions } from '../../store/songs-slice';
 import dbClient from '../../API/dbClient';
+import useClickedOutside from './hooks/use-clicked-outside';
 
 type SectionType = {
   id: string;
@@ -14,32 +15,6 @@ type DropdownType = {
   className: string;
 };
 
-function statusColorMap(status: string): string {
-  switch (status) {
-    case 'not started':
-      return 'bg-rose-300 dark:bg-rose-800';
-    case 'in progress':
-      return 'bg-amber-200 dark:bg-amber-700';
-    case 'finished':
-      return 'bg-emerald-200 dark:bg-emerald-700';
-    default:
-      return '';
-  }
-}
-
-function hoverColorMap(status: string): string {
-  switch (status) {
-    case 'not started':
-      return 'hover:bg-rose-400 dark:hover:bg-rose-900';
-    case 'in progress':
-      return 'hover:bg-amber-300 dark:hover:bg-amber-800';
-    case 'finished':
-      return 'hover:bg-emerald-300 dark:hover:bg-emerald-800';
-    default:
-      return '';
-  }
-}
-
 // Dropdown is now implemented to be project specific
 // TODO: find a more generic architecture for it
 
@@ -47,32 +22,16 @@ function Dropdown(props: DropdownType) {
   const [hideDropDown, setHideDropDown] = useState(true);
   const dispatch = useDispatch();
 
+  const dropDownRef = useRef<HTMLDivElement>(null);
+  useClickedOutside(dropDownRef, () => {
+    setHideDropDown(true);
+  });
+
   const sectionStatusRef = [
     { ref: useRef<HTMLInputElement>(null), status: 'not started' }, // 0
     { ref: useRef<HTMLInputElement>(null), status: 'in progress' }, // 1
     { ref: useRef<HTMLInputElement>(null), status: 'finished' }, // 2
   ];
-
-  // useEffect(() => {
-  //   console.table(
-  //     sectionStatusRef.map((section) => {
-  //       return {
-  //         status: section.status,
-  //         checked: section.ref.current?.checked,
-  //       };
-  //     })
-  //   );
-  // }, [sectionStatusRef]);
-
-  function isInputSelected(): boolean {
-    // if one input is checked return true
-    // if none is selected return false
-    return (
-      sectionStatusRef
-        .map((section) => section.ref.current?.checked)
-        .filter((selection) => selection).length > 0
-    );
-  }
 
   async function updateSectionOnBackend(newSection: SectionType) {
     // send update to the store & backend
@@ -102,17 +61,12 @@ function Dropdown(props: DropdownType) {
         onClick={() => {
           setHideDropDown((state) => !state);
         }}
-        onBlur={() => {
-          console.log('close dropdown');
-          console.log('selection is: %s', isInputSelected());
-          // setHideDropDown(true);
-        }}
         data-dropdown-toggle='dropdownDefaultRadio'
         className={`${props.className}`}>
         {props.section.name}
       </button>
-
       <div
+        ref={dropDownRef}
         id='dropdownDefaultRadio'
         hidden={hideDropDown}
         onClick={() => setHideDropDown(true)}
