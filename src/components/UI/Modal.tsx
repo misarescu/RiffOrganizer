@@ -23,7 +23,7 @@ function Backdrop(props: {
 function ModalOverlay(props: ModalProps) {
   return (
     <Card
-      className='fixed top-1/4 left-[15%] min-w-[70%] z-30'
+      className='fixed top-1/4 left-[10%] min-w-[80%] z-30'
       title={props.title}>
       {props.children}
     </Card>

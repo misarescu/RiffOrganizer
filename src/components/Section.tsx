@@ -20,8 +20,22 @@ function statusColorMap(status: string): string {
   }
 }
 
+function hoverColorMap(status: string): string {
+  switch (status) {
+    case 'not started':
+      return 'hover:bg-rose-400 dark:hover:bg-rose-900';
+    case 'in progress':
+      return 'hover:bg-amber-300 dark:hover:bg-amber-800';
+    case 'finished':
+      return 'hover:bg-emerald-300 dark:hover:bg-emerald-800';
+    default:
+      return '';
+  }
+}
+
 function Section(props: SectionType) {
   const sectionColorClass = statusColorMap(props.status);
+  const hoverColorClass = hoverColorMap(props.status);
   // console.log(sectionColorClass);
 
   // TODO: maybe use a Map instead of an object array
@@ -30,15 +44,15 @@ function Section(props: SectionType) {
     <>
       <div className=''>
         <button
-          className={`rounded-l-md py-0 px-1 md:py-1 md:px-2 ${sectionColorClass}`}>
+          className={`rounded-l-md py-0 px-1 md:py-1 md:px-2 ${sectionColorClass} ${hoverColorClass}`}>
           {'<'}
         </button>
         <Dropdown
           section={props}
-          className={`rounded-none py-0 px-1 md:py-1 md:px-2 ${sectionColorClass}`}
+          className={`rounded-none py-0 px-1 md:py-1 md:px-2 ${sectionColorClass} ${hoverColorClass}`}
         />
         <button
-          className={`rounded-r-md py-0 px-1 md:py-1 md:px-2 ${sectionColorClass}`}>
+          className={`rounded-r-md py-0 px-1 md:py-1 md:px-2 ${sectionColorClass} ${hoverColorClass}`}>
           {'>'}
         </button>
       </div>

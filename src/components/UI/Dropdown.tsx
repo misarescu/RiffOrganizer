@@ -85,10 +85,12 @@ function Dropdown(props: DropdownType) {
         className={props.className}>
         {props.section.name}
       </button>
+
       <div
         id='dropdownDefaultRadio'
         hidden={hideDropDown}
-        className='fixed mt-2 z-10 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'>
+        onClick={() => setHideDropDown(true)}
+        className='fixed mt-2 z-20 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'>
         <ul
           className='p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200'
           aria-labelledby='dropdownRadioButton'>
