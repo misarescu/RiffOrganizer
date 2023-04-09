@@ -8,6 +8,7 @@ import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
 import useInput from './hooks/use-input';
+import dbClient from '../API/dbClient';
 
 function SignupForm() {
   const dispatch = useDispatch();
@@ -37,6 +38,34 @@ function SignupForm() {
   }
 
   const formIsValid = formValidationCondition();
+
+  async function registerHandler() {
+    // create a new user
+    const email: string = emailInput.value ? emailInput.value : '';
+    const password: string = passwordInput.value ? passwordInput.value : '';
+    let { data: newUserCreated, error: createdError } =
+      await dbClient.auth.signUp({
+        email,
+        password,
+      });
+
+    // get the new user id in order to fill out information in user_info table
+    if (newUserCreated) {
+      const newUserId: string = newUserCreated.user
+        ? newUserCreated.user.id
+        : '';
+      const fullName: string = fullNameInput.value ? fullNameInput.value : '';
+      let { data, error } = await dbClient.from('user_info').insert({
+        id: newUserId,
+        full_name: fullName,
+        email,
+      });
+    }
+
+    alert('a confirmation email has been sent to your address');
+
+    closeModalHandler();
+  }
 
   return isVisible ? (
     <Modal title='Register with email' onClick={closeModalHandler}>
@@ -81,7 +110,9 @@ function SignupForm() {
           <Button outline onClick={closeModalHandler}>
             Cancel
           </Button>
-          <Button disabled={!formIsValid}>Register</Button>
+          <Button disabled={!formIsValid} onClick={registerHandler}>
+            Register
+          </Button>
         </FormButtonList>
       </Form>
     </Modal>
