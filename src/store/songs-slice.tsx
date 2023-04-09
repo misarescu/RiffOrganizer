@@ -49,7 +49,6 @@ const songsSlice = createSlice({
           }
         }
       }
-      console.log(state);
     },
   },
 });

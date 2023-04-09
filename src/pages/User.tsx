@@ -47,7 +47,6 @@ function UserPage() {
         songList: userData.songs,
       })
     );
-    console.log(userData);
   }, [userData]);
 
   function addSongHandler() {
