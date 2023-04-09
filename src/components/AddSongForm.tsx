@@ -20,6 +20,7 @@ function AddSongForm() {
   const songName = useRef<HTMLInputElement>(null);
   const artistName = useRef<HTMLInputElement>(null);
 
+  // TODO: maybe use a Map instad of an object arrray
   const sectionList = [
     { ref: useRef<HTMLInputElement>(null), name: 'Intro' },
     { ref: useRef<HTMLInputElement>(null), name: 'Verse' },

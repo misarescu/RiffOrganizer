@@ -3,11 +3,12 @@ import Card from '../components/UI/Card';
 import Button from '../components/UI/Button';
 import dbClient from '../API/dbClient';
 import { json, redirect, useRouteLoaderData } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../store/user-slice';
 import AddSongForm from '../components/AddSongForm';
 import { songsActions } from '../store/songs-slice';
 import Section from '../components/Section';
+import { StoreStateType } from '../store';
 
 type UserData = {
   email: string;
@@ -28,6 +29,9 @@ type UserData = {
 function UserPage() {
   const userData = useRouteLoaderData('user-page') as UserData;
   const dispatch = useDispatch();
+  const songsDataStore = useSelector(
+    (state: StoreStateType) => state.songs.songList
+  );
 
   useEffect(() => {
     dispatch(
@@ -58,12 +62,12 @@ function UserPage() {
           Add a New Song
         </Button>
 
-        {userData.songs?.length === 0 ? (
+        {songsDataStore?.length === 0 ? (
           <Card>
             <p>Sorry you don't have any songs added yet</p>
           </Card>
         ) : (
-          userData.songs?.map((song) => (
+          songsDataStore?.map((song) => (
             <Card
               key={song.id}
               title={`${song.song_name} - ${song.artist_name}`}>
@@ -75,9 +79,8 @@ function UserPage() {
               <ul className='flex flex-wrap w-full gap-1 md:gap-2 '>
                 {song.sections?.map((section) => (
                   // for some reason rounded here needs to be lg not md
-                  <li className='rounded-lg w-fit h-fit'>
+                  <li key={section.id} className='rounded-lg w-fit h-fit'>
                     <Section
-                      key={section.id}
                       id={section.id}
                       name={section.name}
                       status={section.status}
