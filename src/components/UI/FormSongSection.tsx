@@ -2,6 +2,7 @@ import React from 'react';
 
 type FormSongSectionType = {
   name: string;
+  disabled?: boolean;
 };
 
 const SongSectionClass = `inline-flex items-center justify-between w-full 
@@ -16,6 +17,7 @@ const FormSongSection = React.forwardRef(
     return (
       <li>
         <input
+          disabled={props.disabled}
           type='checkbox'
           id={`id-${props.name}`}
           className='hidden peer'

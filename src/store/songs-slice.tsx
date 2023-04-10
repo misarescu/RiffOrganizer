@@ -15,11 +15,15 @@ type SongType = {
 
 type SongsInitialStateType = {
   isSongFormVisible: boolean;
+  isSectionFormVisible: boolean;
+  activeSongToAddSection: string;
   songList: Array<SongType>;
 };
 
 const initialState: SongsInitialStateType = {
   isSongFormVisible: false,
+  isSectionFormVisible: false,
+  activeSongToAddSection: '',
   songList: [],
 };
 
@@ -32,6 +36,14 @@ const songsSlice = createSlice({
     },
     closeSongForm(state) {
       state.isSongFormVisible = false;
+    },
+    openSectionForm(state, action) {
+      state.isSectionFormVisible = true;
+      state.activeSongToAddSection = action.payload;
+    },
+    closeSectionForm(state) {
+      state.isSectionFormVisible = false;
+      state.activeSongToAddSection = '';
     },
     setSongList(state, action) {
       state.songList = action.payload.songList;

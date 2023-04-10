@@ -10,6 +10,7 @@ import { songsActions } from '../store/songs-slice';
 import Section from '../components/Section';
 import { StoreStateType } from '../store';
 import SongCard from '../components/SongCard';
+import AddSectionForm from '../components/AddSectionForm';
 
 type UserData = {
   email: string;
@@ -57,6 +58,7 @@ function UserPage() {
   return (
     <>
       <AddSongForm />
+      <AddSectionForm />
       <div className='grid place-items-center '>
         <Button onClick={addSongHandler} className='mt-4 md:mt-6'>
           Add a New Song
