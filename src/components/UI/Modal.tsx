@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode } from 'react';
+import React, { MouseEvent, ReactNode, useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Card from './Card';
 
@@ -31,6 +31,27 @@ function ModalOverlay(props: ModalProps) {
 }
 
 function Modal(props: ModalProps) {
+  const escFunction = useCallback((event: any) => {
+    if (event.key === 'Escape') {
+      props.onClick && props.onClick(event);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+
+    return () => {
+      document.removeEventListener('keydown', escFunction, false);
+    };
+  }, [escFunction]);
+
   return (
     <>
       {ReactDOM.createPortal(
