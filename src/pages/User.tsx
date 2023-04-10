@@ -9,6 +9,7 @@ import AddSongForm from '../components/AddSongForm';
 import { songsActions } from '../store/songs-slice';
 import Section from '../components/Section';
 import { StoreStateType } from '../store';
+import SongCard from '../components/SongCard';
 
 type UserData = {
   email: string;
@@ -66,29 +67,7 @@ function UserPage() {
             <p>Sorry you don't have any songs added yet</p>
           </Card>
         ) : (
-          songsDataStore?.map((song) => (
-            <Card
-              key={song.id}
-              title={`${song.song_name} - ${song.artist_name}`}>
-              <p>Your progress:</p>
-              <br />
-              {/* TODO: add an order/index property to be able 
-                        to change the order of the sections 🙂
-              */}
-              <ul className='flex flex-wrap w-full gap-1 md:gap-2 '>
-                {song.sections?.map((section) => (
-                  // for some reason rounded here needs to be lg not md
-                  <li key={section.id} className='rounded-lg w-fit h-fit'>
-                    <Section
-                      id={section.id}
-                      name={section.name}
-                      status={section.status}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ))
+          songsDataStore?.map((song) => <SongCard song={song} />)
         )}
       </div>
     </>
