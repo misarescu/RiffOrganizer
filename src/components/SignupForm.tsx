@@ -18,7 +18,7 @@ function SignupForm() {
   const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const emailInput = useInput((value: string) => mailFormat.test(value.trim()));
   const fullNameInput = useInput((value: string) => value.trim() !== '');
-  const passwordInput = useInput((value: string) => value.trim() !== '');
+  const passwordInput = useInput((value: string) => value.trim().length >= 6);
   const confirmPasswordInput = useInput(
     (value: string) => value.trim() === passwordInput.value
   );
@@ -48,6 +48,11 @@ function SignupForm() {
         email,
         password,
       });
+
+    if (createdError) {
+      alert(createdError.message);
+      return;
+    }
 
     // get the new user id in order to fill out information in user_info table
     if (newUserCreated) {
@@ -92,7 +97,7 @@ function SignupForm() {
           inputLabel='Password'
           inputId='user-password'
           inputType='password'
-          errorMessage='Password cannot be empty'
+          errorMessage='Password needs to be at least 6 characters'
           hasError={passwordInput.hasError}
           onChange={passwordInput.onChangeHandler}
           onBlur={passwordInput.onBlurHandler}
