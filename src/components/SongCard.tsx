@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './UI/Card';
 import Section from './Section';
+import Button from './UI/Button';
 
 function SongCard(props: {
   song: {
@@ -15,10 +16,11 @@ function SongCard(props: {
   };
 }) {
   return (
-    <Card
-      key={props.song.id}
-      title={`${props.song.song_name} - ${props.song.artist_name}`}>
-      <p>Your progress:</p>
+    <Card title={`${props.song.song_name} - ${props.song.artist_name}`}>
+      <div className='flex justify-between'>
+        <p>Your progress</p>
+        <Button>Add section</Button>
+      </div>
       <br />
       {/* TODO: add an order/index property to be able 
                         to change the order of the sections 🙂

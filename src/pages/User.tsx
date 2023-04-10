@@ -67,7 +67,7 @@ function UserPage() {
             <p>Sorry you don't have any songs added yet</p>
           </Card>
         ) : (
-          songsDataStore?.map((song) => <SongCard song={song} />)
+          songsDataStore?.map((song) => <SongCard song={song} key={song.id} />)
         )}
       </div>
     </>
