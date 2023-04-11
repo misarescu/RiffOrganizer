@@ -3,6 +3,7 @@ import React from 'react';
 type FormSongSectionType = {
   name: string;
   disabled?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const SongSectionClass = `inline-flex items-center justify-between w-full 
@@ -21,6 +22,7 @@ const FormSongSection = React.forwardRef(
           type='checkbox'
           id={`id-${props.name}`}
           className='hidden peer'
+          onChange={props.onChange}
           ref={ref}
         />
         <label htmlFor={`id-${props.name}`} className={`${SongSectionClass}`}>

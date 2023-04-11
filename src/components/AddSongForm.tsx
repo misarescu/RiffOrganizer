@@ -75,6 +75,8 @@ function AddSongForm() {
       .insert(selectedSections)
       .select();
 
+    songNameInput.reset();
+    artistNameInput.reset();
     closeModalHandler();
   }
 

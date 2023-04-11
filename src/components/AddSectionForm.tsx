@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import useInput from './hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreStateType } from '../store';
@@ -17,6 +17,7 @@ type SectionType = { name?: string; status?: string; song_id: string };
 function AddSectionForm() {
   const sectionNameInput = useInput((value: string) => value.trim() !== '');
   const sectionName = useRef<HTMLInputElement>(null);
+  const [isSelectionValid, setIsSelectionValid] = useState(false);
 
   // TODO: maybe use a Map instad of an object arrray
   const sectionList = [
@@ -36,8 +37,16 @@ function AddSectionForm() {
     (state: StoreStateType) => state.user.userInfo.userId
   );
 
+  function validateSelection() {
+    setIsSelectionValid(
+      sectionList
+        .map((section) => section.ref.current?.checked)
+        .filter((section) => section).length > 0
+    );
+  }
   function formValidationCondition() {
-    return sectionNameInput.isValid;
+    // return /*sectionNameInput.isValid || */ isSectionSelectionValid();
+    return sectionNameInput.isValid || isSelectionValid;
   }
 
   const formIsValid = formValidationCondition();
@@ -72,12 +81,12 @@ function AddSectionForm() {
     //   .from('sections')
     //   .insert(selectedSections)
     //   .select();
-    console.log('add a new section');
+    sectionNameInput.reset();
     closeModalHandler();
   }
 
   return isVisible ? (
-    <Modal title='Add a new song' onClick={closeModalHandler}>
+    <Modal title='Add a new section' onClick={closeModalHandler}>
       <Form className=' min-w-fit w-1/2 mx-auto'>
         <FormInput
           inputLabel='Custom Section'
@@ -96,6 +105,7 @@ function AddSectionForm() {
               key={section.name}
               name={section.name}
               ref={section.ref}
+              onChange={() => validateSelection()}
               // disabled
             />
           ))}
