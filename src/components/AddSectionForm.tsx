@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useInput from './hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreStateType } from '../store';
@@ -33,9 +33,17 @@ function AddSectionForm() {
   const isVisible = useSelector(
     (state: StoreStateType) => state.songs.isSectionFormVisible
   );
-  const userId = useSelector(
-    (state: StoreStateType) => state.user.userInfo.userId
+  const songId = useSelector(
+    (state: StoreStateType) => state.songs.activeSongToAddSection
   );
+
+  useEffect(() => {
+    // on a new AddSectionForm pop up, call the validate selection
+    // to disable the add button on empty selections
+    // without this after the first use the button is valid by default
+    // due to the validation being the same
+    validateSelection();
+  }, [songId]);
 
   function validateSelection() {
     setIsSelectionValid(
