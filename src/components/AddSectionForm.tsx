@@ -68,7 +68,7 @@ function AddSectionForm() {
     dispatch(songsActions.closeSectionForm());
   }
 
-  async function addSongHandler() {
+  async function addSectionHandler() {
     // get the str list of the already included sections and check the
     const presentSections = songData.sections.map(
       (songDataSection) => songDataSection.name
@@ -134,7 +134,7 @@ function AddSectionForm() {
           <Button outline onClick={closeModalHandler}>
             Cancel
           </Button>
-          <Button onClick={addSongHandler} disabled={!formIsValid}>
+          <Button onClick={addSectionHandler} disabled={!formIsValid}>
             Add Section
           </Button>
         </FormButtonList>

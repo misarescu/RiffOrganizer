@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { songsActions } from '../../store/songs-slice';
 import dbClient from '../../API/dbClient';
@@ -28,17 +28,26 @@ function Dropdown(props: DropdownType) {
   });
 
   const sectionStatusRef = [
-    { ref: useRef<HTMLInputElement>(null), status: 'not started' }, // 0
-    { ref: useRef<HTMLInputElement>(null), status: 'in progress' }, // 1
-    { ref: useRef<HTMLInputElement>(null), status: 'finished' }, // 2
+    { ref: useRef<HTMLInputElement>(null), status: 'remove section' }, // 0
+    { ref: useRef<HTMLInputElement>(null), status: 'not started' }, // 1
+    { ref: useRef<HTMLInputElement>(null), status: 'in progress' }, // 2
+    { ref: useRef<HTMLInputElement>(null), status: 'finished' }, // 3
   ];
 
   async function updateSectionOnBackend(newSection: SectionType) {
-    // send update to the store & backend
-    const { error } = await dbClient
+    // send update to the backend
+    const { data, error } = await dbClient
       .from('sections')
       .update(newSection)
       .eq('id', newSection.id);
+  }
+
+  async function removeSectionOnBackend(targetSection: SectionType) {
+    //send the id of the section to be removed to the backend
+    const { error } = await dbClient
+      .from('sections')
+      .delete()
+      .eq('id', targetSection.id);
   }
 
   function selectionHandler() {
@@ -49,6 +58,11 @@ function Dropdown(props: DropdownType) {
         (section) => section.ref.current?.checked === true
       )[0].status,
     };
+
+    if (newSection.status === 'remove section') {
+      removeSectionOnBackend(newSection);
+      dispatch(songsActions.removeSection(newSection));
+    }
 
     updateSectionOnBackend(newSection);
     dispatch(songsActions.updateSection(newSection));
@@ -80,6 +94,25 @@ function Dropdown(props: DropdownType) {
                 hidden
                 onClick={selectionHandler}
                 ref={sectionStatusRef[0].ref}
+                id={`${props.section.id}-remove-section`}
+                type='radio'
+                value=''
+                name='default-radio'
+                // className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+              />
+              <label
+                htmlFor={`${props.section.id}-remove-section`}
+                className='w-full ml-2 text-sm font-medium bg-rose-400 dark:bg-rose-800 text-slate-800 dark:text-slate-100 hover:bg-rose-500 dark:hover:bg-rose-900 '>
+                {sectionStatusRef[0].status}
+              </label>
+            </div>
+          </li>
+          <li className=''>
+            <div className='flex items-center'>
+              <input
+                hidden
+                onClick={selectionHandler}
+                ref={sectionStatusRef[1].ref}
                 id={`${props.section.id}-not-started`}
                 type='radio'
                 value=''
@@ -89,26 +122,7 @@ function Dropdown(props: DropdownType) {
               <label
                 htmlFor={`${props.section.id}-not-started`}
                 className='w-full ml-2 text-sm font-medium dark:text-rose-300 text-rose-800 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-rose-400 dark:hover:bg-rose-900 '>
-                not started
-              </label>
-            </div>
-          </li>
-          <li>
-            <div className='flex items-center'>
-              <input
-                hidden
-                onClick={selectionHandler}
-                ref={sectionStatusRef[1].ref}
-                id={`${props.section.id}-in-progress`}
-                type='radio'
-                value=''
-                name='default-radio'
-                // className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
-              />
-              <label
-                htmlFor={`${props.section.id}-in-progress`}
-                className='w-full ml-2 text-sm font-medium dark:text-amber-200 text-amber-700 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-amber-300 dark:hover:bg-amber-800 '>
-                in progress
+                {sectionStatusRef[1].status}
               </label>
             </div>
           </li>
@@ -118,6 +132,25 @@ function Dropdown(props: DropdownType) {
                 hidden
                 onClick={selectionHandler}
                 ref={sectionStatusRef[2].ref}
+                id={`${props.section.id}-in-progress`}
+                type='radio'
+                value=''
+                name='default-radio'
+                // className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500'
+              />
+              <label
+                htmlFor={`${props.section.id}-in-progress`}
+                className='w-full ml-2 text-sm font-medium dark:text-amber-200 text-amber-700 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-amber-300 dark:hover:bg-amber-800 '>
+                {sectionStatusRef[2].status}
+              </label>
+            </div>
+          </li>
+          <li>
+            <div className='flex items-center'>
+              <input
+                hidden
+                onClick={selectionHandler}
+                ref={sectionStatusRef[3].ref}
                 id={`${props.section.id}-finished`}
                 type='radio'
                 value=''
@@ -127,7 +160,7 @@ function Dropdown(props: DropdownType) {
               <label
                 htmlFor={`${props.section.id}-finished`}
                 className='w-full ml-2 text-sm font-medium dark:text-emerald-200 text-emerald-700 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-emerald-300 dark:hover:bg-emerald-800 '>
-                finished
+                {sectionStatusRef[3].status}
               </label>
             </div>
           </li>

@@ -75,6 +75,18 @@ function AddSongForm() {
       .insert(selectedSections)
       .select();
 
+    // update the store to update ui...
+    // const newSongForStore = {
+    //   artist_name: artistName.current?.value.trim(),
+    //   song_name: songName.current?.value.trim(),
+    //   user_id: userId,
+    //   id: songId,
+    //   sections: sectionsData as [],
+    // };
+
+    // console.log('newSongForStore: %o', newSongForStore);
+
+    // dispatch(songsActions.addSong(newSongForStore));
     songNameInput.reset();
     artistNameInput.reset();
     closeModalHandler();

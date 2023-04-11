@@ -30,6 +30,7 @@ function SongCard(props: {
       .from('songs')
       .delete()
       .eq('id', props.song.id);
+    dispatch(songsActions.removeSong(props.song));
   }
 
   const songTitle = (
