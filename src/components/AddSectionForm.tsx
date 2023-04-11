@@ -33,8 +33,11 @@ function AddSectionForm() {
   const isVisible = useSelector(
     (state: StoreStateType) => state.songs.isSectionFormVisible
   );
-  const songId = useSelector(
-    (state: StoreStateType) => state.songs.activeSongToAddSection
+  const songData = useSelector(
+    (state: StoreStateType) =>
+      state.songs.songList.filter(
+        (song) => song.id === state.songs.activeSongToAddSection
+      )[0]
   );
 
   useEffect(() => {
@@ -43,7 +46,9 @@ function AddSectionForm() {
     // without this after the first use the button is valid by default
     // due to the validation being the same
     validateSelection();
-  }, [songId]);
+
+    console.log('selected song is: %o', songData);
+  }, [songData]);
 
   function validateSelection() {
     setIsSelectionValid(
@@ -53,7 +58,6 @@ function AddSectionForm() {
     );
   }
   function formValidationCondition() {
-    // return /*sectionNameInput.isValid || */ isSectionSelectionValid();
     return sectionNameInput.isValid || isSelectionValid;
   }
 
