@@ -20,7 +20,10 @@ function AddSectionForm() {
   const [isSelectionValid, setIsSelectionValid] = useState(false);
 
   // TODO: maybe use a Map instad of an object arrray
-  const sectionList = [
+  const sectionList: {
+    ref: React.RefObject<HTMLInputElement>;
+    name: string;
+  }[] = [
     { ref: useRef<HTMLInputElement>(null), name: 'Intro' },
     { ref: useRef<HTMLInputElement>(null), name: 'Verse' },
     { ref: useRef<HTMLInputElement>(null), name: 'Pre-Chorus' },
@@ -46,8 +49,6 @@ function AddSectionForm() {
     // without this after the first use the button is valid by default
     // due to the validation being the same
     validateSelection();
-
-    console.log('selected song is: %o', songData);
   }, [songData]);
 
   function validateSelection() {
@@ -68,31 +69,38 @@ function AddSectionForm() {
   }
 
   async function addSongHandler() {
-    // const { data: songsData, error: songsError } = await dbClient
-    //   .from('songs')
-    //   .insert({
-    //     artist_name: artistName.current?.value.trim(),
-    //     song_name: sectionName.current?.value.trim(),
-    //     user_id: userId,
-    //   })
-    //   .select();
+    // get the str list of the already included sections and check the
+    const presentSections = songData.sections.map(
+      (songDataSection) => songDataSection.name
+    );
 
-    // const songId = songsData?.at(0)?.id;
+    const newSections = sectionList
+      .filter((section) => section.ref.current?.checked === true)
+      .map((section) => section.name) // get the str list of the selected sections
+      .filter((sectionName) => !presentSections.includes(sectionName))
+      .map((sectionName) => {
+        return {
+          song_id: songData.id,
+          name: sectionName,
+          status: 'not started',
+        } as SectionType;
+      });
 
-    // const selectedSections: SectionType[] = sectionList
-    //   .filter((section) => section.ref.current?.checked === true) // only desired sections
-    //   .map((section) => {
-    //     return {
-    //       song_id: songId,
-    //       name: section.name,
-    //       status: 'not started',
-    //     } as SectionType;
-    //   });
+    if (sectionName.current?.value !== '') {
+      newSections.push({
+        song_id: songData.id,
+        name: sectionName.current?.value,
+        status: 'not started',
+      } as SectionType);
+    }
 
-    // const { data: sectionsData, error: sectionsError } = await dbClient
-    //   .from('sections')
-    //   .insert(selectedSections)
-    //   .select();
+    const { data: sectionsData, error: sectionsError } = await dbClient
+      .from('sections')
+      .insert(newSections)
+      .select();
+
+    console.log('the new section list is %o', newSections);
+
     sectionNameInput.reset();
     closeModalHandler();
   }
@@ -118,7 +126,7 @@ function AddSectionForm() {
               name={section.name}
               ref={section.ref}
               onChange={() => validateSelection()}
-              // disabled
+              // disabled={section.disabled}
             />
           ))}
         </FormSongSectionList>
