@@ -27,7 +27,7 @@ function SongCard(props: {
     <div className='flex justify-between items-center px-2 md:px-6'>
       {`${props.song.song_name} - ${props.song.artist_name}`}{' '}
       <div>
-        <Button special className=''>
+        <Button special className=' text-xs md:text-base'>
           Remove
         </Button>
       </div>

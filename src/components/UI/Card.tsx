@@ -17,7 +17,7 @@ function Card(props: CardProps) {
   return (
     <div className={`${CardClass} ${props.className}`}>
       {props.title ? (
-        <h1 className=' bg-blue-500 text-slate-800 text-2xl md:text-4xl font-semibold md:font-bold w-full rounded-t-md py-2 md:py-4'>
+        <h1 className=' bg-blue-500 text-slate-800 text-xl md:text-4xl font-semibold md:font-bold w-full rounded-t-md py-2 md:py-4'>
           {props.title}
         </h1>
       ) : null}
