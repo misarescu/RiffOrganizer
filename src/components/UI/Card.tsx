@@ -3,7 +3,7 @@ import React from 'react';
 type CardProps = {
   children: React.ReactNode;
   className?: string;
-  title?: string;
+  title?: React.ReactNode;
 };
 
 const CardClass = `border border-slate-800/20 shadow-slate-800/20 

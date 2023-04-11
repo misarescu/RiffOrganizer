@@ -4,7 +4,6 @@ import Section from './Section';
 import Button from './UI/Button';
 import { songsActions } from '../store/songs-slice';
 import { useDispatch } from 'react-redux';
-import AddSectionForm from './AddSectionForm';
 
 function SongCard(props: {
   song: {
@@ -24,9 +23,20 @@ function SongCard(props: {
     dispatch(songsActions.openSectionForm(props.song.id));
   }
 
+  const songTitle = (
+    <div className='flex justify-between items-center px-2 md:px-6'>
+      {`${props.song.song_name} - ${props.song.artist_name}`}{' '}
+      <div>
+        <Button special className=''>
+          Remove
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
     <>
-      <Card title={`${props.song.song_name} - ${props.song.artist_name}`}>
+      <Card title={songTitle}>
         <div className='flex justify-between'>
           <p>Your progress</p>
           <Button onClick={addSectionHandler}>Add section</Button>

@@ -135,7 +135,7 @@ function AddSectionForm() {
             Cancel
           </Button>
           <Button onClick={addSongHandler} disabled={!formIsValid}>
-            Add Song
+            Add Section
           </Button>
         </FormButtonList>
       </Form>
