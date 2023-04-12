@@ -96,6 +96,7 @@ async function loadUserData(urlUserId: string): Promise<Response> {
         id,
         artist_name,
         song_name,
+        created_at,
         sections(
           id,
           name,
@@ -104,7 +105,11 @@ async function loadUserData(urlUserId: string): Promise<Response> {
       )
     `
     )
-    .eq('id', urlUserId);
+    .eq('id', urlUserId)
+    .order('created_at', {
+      foreignTable: 'songs',
+      ascending: false,
+    });
 
   if (userQuery.data?.length === 0) {
     return redirect('/');
