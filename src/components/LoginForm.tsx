@@ -65,7 +65,7 @@ function LoginForm() {
       const { data, error } = await dbClient.auth.resetPasswordForEmail(
         userEmail.current?.value as string,
         {
-          redirectTo: `password-reset/${userData?.at(0)?.id}`,
+          redirectTo: `${currentPath}password-reset/${userData?.at(0)?.id}`,
         }
       );
       // console.log(
