@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Modal from './UI/Modal';
-import { Form } from 'react-router-dom';
+import { useFetcher } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { songsActions } from '../store/songs-slice';
@@ -15,6 +15,7 @@ import dbClient from '../API/dbClient';
 type SectionType = { name?: string; status?: string; song_id: string };
 
 function AddSongForm() {
+  const fetcher = useFetcher();
   const songNameInput = useInput((value: string) => value.trim() !== '');
   const artistNameInput = useInput((value: string) => value.trim() !== '');
   const songName = useRef<HTMLInputElement>(null);
@@ -94,7 +95,7 @@ function AddSongForm() {
 
   return isVisible ? (
     <Modal title='Add a new song' onClick={closeModalHandler}>
-      <Form className=' min-w-fit w-1/2 mx-auto'>
+      <fetcher.Form className=' min-w-fit w-1/2 mx-auto'>
         <FormInput
           inputLabel='Song Name'
           inputId='song-name'
@@ -133,7 +134,7 @@ function AddSongForm() {
             Add Song
           </Button>
         </FormButtonList>
-      </Form>
+      </fetcher.Form>
     </Modal>
   ) : null;
 }

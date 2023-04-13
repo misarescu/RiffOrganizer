@@ -5,7 +5,7 @@ import { StoreStateType } from '../store';
 import { songsActions } from '../store/songs-slice';
 import dbClient from '../API/dbClient';
 import Modal from './UI/Modal';
-import { Form } from 'react-router-dom';
+import { useFetcher } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
@@ -15,6 +15,7 @@ import Button from './UI/Button';
 type SectionType = { name?: string; status?: string; song_id: string };
 
 function AddSectionForm() {
+  const fetcher = useFetcher();
   const sectionNameInput = useInput((value: string) => value.trim() !== '');
   const sectionName = useRef<HTMLInputElement>(null);
   const [isSelectionValid, setIsSelectionValid] = useState(false);
@@ -107,7 +108,7 @@ function AddSectionForm() {
 
   return isVisible ? (
     <Modal title='Add a new section' onClick={closeModalHandler}>
-      <Form className=' min-w-fit w-1/2 mx-auto'>
+      <fetcher.Form className=' min-w-fit w-1/2 mx-auto'>
         <FormInput
           inputLabel='Custom Section'
           inputId='section-name'
@@ -138,7 +139,7 @@ function AddSectionForm() {
             Add Section
           </Button>
         </FormButtonList>
-      </Form>
+      </fetcher.Form>
     </Modal>
   ) : null;
 }
