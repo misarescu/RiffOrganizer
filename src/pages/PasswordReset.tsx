@@ -23,16 +23,14 @@ function PasswordResetPage() {
 
   async function passwordResetHandler() {
     const newPassword: string = passwordInput.value ? passwordInput.value : '';
-    const { data, error } = await dbClient.auth.admin.updateUserById(
-      userId as string,
-      {
-        password: newPassword,
-      }
-    );
+    const { data, error } = await dbClient.auth.updateUser({
+      password: newPassword,
+    });
 
     if (!error) {
       redirect('/');
     }
+    alert(error?.message);
   }
 
   return (
