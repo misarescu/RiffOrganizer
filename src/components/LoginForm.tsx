@@ -72,6 +72,7 @@ function LoginForm() {
       //   'redirect to %s',
       //   `${currentPath}password-reset/${userData?.at(0)?.id}`
       // );
+      dispatch(uiActions.closeLoginForm());
     } else {
       alert('no user with this email address');
     }
