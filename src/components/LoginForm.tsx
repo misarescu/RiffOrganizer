@@ -10,7 +10,7 @@ import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import dbClient from '../API/dbClient';
-import useInput from './hooks/use-input';
+import useInput from './UI/hooks/use-input';
 
 function LoginForm() {
   const currentPath = window.location.href;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import FormInput from '../components/UI/FormInput';
-import useInput from '../components/hooks/use-input';
+import useInput from '../components/UI/hooks/use-input';
 import FormButtonList from '../components/UI/FormButtonList';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';

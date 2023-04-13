@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useInput from './hooks/use-input';
+import useInput from './UI/hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreStateType } from '../store';
 import { songsActions } from '../store/songs-slice';

@@ -7,7 +7,7 @@ import { songsActions } from '../store/songs-slice';
 import { StoreStateType } from '../store';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
-import useInput from './hooks/use-input';
+import useInput from './UI/hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import dbClient from '../API/dbClient';

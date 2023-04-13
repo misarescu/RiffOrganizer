@@ -7,7 +7,7 @@ import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
-import useInput from './hooks/use-input';
+import useInput from './UI/hooks/use-input';
 import dbClient from '../API/dbClient';
 
 function SignupForm() {
