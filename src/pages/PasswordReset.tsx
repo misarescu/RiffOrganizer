@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, redirect } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 import FormInput from '../components/UI/FormInput';
 import useInput from '../components/hooks/use-input';
 import FormButtonList from '../components/UI/FormButtonList';
@@ -9,7 +9,7 @@ import dbClient from '../API/dbClient';
 
 function PasswordResetPage() {
   // const { userId } = useParams();
-
+  const navigate = useNavigate();
   const passwordInput = useInput((value: string) => value.trim().length >= 6);
   const confirmPasswordInput = useInput(
     (value: string) => value.trim() === passwordInput.value
@@ -31,7 +31,7 @@ function PasswordResetPage() {
       alert(error?.message);
     } else {
       alert('password changed sucessfully');
-      redirect('/');
+      navigate('/');
     }
   }
 
