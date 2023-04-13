@@ -9,6 +9,7 @@ import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
 import useInput from './UI/hooks/use-input';
 import dbClient from '../API/dbClient';
+import { createUser } from '../API/DataAccessLayer';
 
 function SignupForm() {
   const dispatch = useDispatch();
@@ -40,32 +41,11 @@ function SignupForm() {
   const formIsValid = formValidationCondition();
 
   async function registerHandler() {
-    // create a new user
+    const fullName: string = fullNameInput.value ? fullNameInput.value : '';
     const email: string = emailInput.value ? emailInput.value : '';
     const password: string = passwordInput.value ? passwordInput.value : '';
-    let { data: newUserCreated, error: createdError } =
-      await dbClient.auth.signUp({
-        email,
-        password,
-      });
 
-    if (createdError) {
-      alert(createdError.message);
-      return;
-    }
-
-    // get the new user id in order to fill out information in user_info table
-    if (newUserCreated) {
-      const newUserId: string = newUserCreated.user
-        ? newUserCreated.user.id
-        : '';
-      const fullName: string = fullNameInput.value ? fullNameInput.value : '';
-      let { data, error } = await dbClient.from('user_info').insert({
-        id: newUserId,
-        full_name: fullName,
-        email,
-      });
-    }
+    createUser(fullName, email, password);
 
     alert('a confirmation email has been sent to your address');
 

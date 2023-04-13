@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import useInput from './UI/hooks/use-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreStateType } from '../store';
-import { songsActions } from '../store/songs-slice';
-import dbClient from '../API/dbClient';
+import { SectionType, songsActions } from '../store/songs-slice';
 import Modal from './UI/Modal';
 import { useFetcher } from 'react-router-dom';
 import FormInput from './UI/FormInput';
@@ -11,8 +10,9 @@ import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
-
-type SectionType = { name?: string; status?: string; song_id: string };
+import { Database } from '../API/dbTypes';
+import { insertSections } from '../API/DataAccessLayer';
+import dbClient from '../API/dbClient';
 
 function AddSectionForm() {
   const fetcher = useFetcher();
@@ -95,10 +95,15 @@ function AddSectionForm() {
       } as SectionType);
     }
 
-    const { data: sectionsData, error: sectionsError } = await dbClient
-      .from('sections')
-      .insert(newSections)
-      .select();
+    // const { data: sectionsData, error: sectionsError } = await dbClient
+    //   .from('sections')
+    //   .insert(newSections)
+    //   .select();
+
+    console.log(newSections);
+
+    const { data, error } = await insertSections(newSections);
+    dispatch(songsActions.addSections(data as SectionType[]));
 
     console.log('the new section list is %o', newSections);
 

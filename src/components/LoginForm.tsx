@@ -11,6 +11,7 @@ import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import dbClient from '../API/dbClient';
 import useInput from './UI/hooks/use-input';
+import { getUserByEmail, signInWithEmail } from '../API/DataAccessLayer';
 
 function LoginForm() {
   const currentPath = window.location.href;
@@ -35,11 +36,12 @@ function LoginForm() {
 
   const formIsValid = formValidationCondition();
 
-  async function signInWithEmail() {
-    const { data, error } = await dbClient.auth.signInWithPassword({
-      email: userEmail.current?.value as string,
-      password: userPassword.current?.value as string,
-    });
+  async function signIn() {
+    const { data, error } = await signInWithEmail(
+      userEmail.current?.value as string,
+      userPassword.current?.value as string
+    );
+
     if (error && error.status === 400) {
       // bad request due to wrong credentials
       alert(error.message);
@@ -50,16 +52,16 @@ function LoginForm() {
       alert('user is not authenticated correctly');
       return;
     }
+
     dispatch(uiActions.closeLoginForm());
     dispatch(userActions.login());
     navigate(`/user/${data.user?.id}`);
   }
 
   async function resetPassword() {
-    const { data: userData, error: userError } = await dbClient
-      .from('user_info')
-      .select('id')
-      .eq('email', userEmail.current?.value as string);
+    const { data: userData, error: userError } = await getUserByEmail(
+      userEmail.current?.value as string
+    );
 
     if (userData?.at(0)?.id) {
       const { data, error } = await dbClient.auth.resetPasswordForEmail(
@@ -68,10 +70,7 @@ function LoginForm() {
           redirectTo: `${currentPath}password-reset/${userData?.at(0)?.id}`,
         }
       );
-      // console.log(
-      //   'redirect to %s',
-      //   `${currentPath}password-reset/${userData?.at(0)?.id}`
-      // );
+
       dispatch(uiActions.closeLoginForm());
     } else {
       alert('no user with this email address');
@@ -84,7 +83,7 @@ function LoginForm() {
 
   function loginHandler() {
     if (isPasswordForgotten) resetPassword();
-    else signInWithEmail();
+    else signIn();
   }
 
   return isVisible ? (

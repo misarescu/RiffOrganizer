@@ -1,19 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Database } from '../API/dbTypes';
 
-type SectionType = {
-  id: string;
-  name: string;
-  status: string;
-};
-
-type SongType = {
-  id: string;
-  artist_name: string;
-  song_name: string;
+export type SectionType = Database['public']['Tables']['sections']['Row'];
+export type SongType = Database['public']['Tables']['songs']['Row'] & {
   sections: Array<SectionType>;
 };
 
-type SongsInitialStateType = {
+// export type SectionType = {
+//   id: string;
+//   name: string;
+//   status: string;
+// };
+
+// export type SongType = {
+//   id: string;
+//   artist_name: string;
+//   song_name: string;
+//   sections: Array<SectionType>;
+// };
+
+export type SongsInitialStateType = {
   isSongFormVisible: boolean;
   isSectionFormVisible: boolean;
   activeSongToAddSection: string;
@@ -64,6 +70,20 @@ const songsSlice = createSlice({
         if (state.songList[i].id === action.payload.id) idx = i;
       }
       if (idx >= 0) state.songList.splice(idx, 1);
+    },
+
+    // TODO: make asyncThunk
+    addSections(
+      state: SongsInitialStateType,
+      action: { type: string; payload: SectionType[] }
+    ) {
+      const songIdx = state.songList.findIndex(
+        (song) => song.id === state.activeSongToAddSection
+      );
+      const newSections = state.songList[songIdx].sections.concat(
+        action.payload
+      );
+      state.songList[songIdx].sections = newSections;
     },
 
     updateSection(

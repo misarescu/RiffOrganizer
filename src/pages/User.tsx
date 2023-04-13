@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import Card from '../components/UI/Card';
 import Button from '../components/UI/Button';
-import dbClient from '../API/dbClient';
-import { json, redirect, useRouteLoaderData } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../store/user-slice';
 import AddSongForm from '../components/AddSongForm';
 import { songsActions } from '../store/songs-slice';
-import Section from '../components/Section';
 import { StoreStateType } from '../store';
 import SongCard from '../components/SongCard';
 import AddSectionForm from '../components/AddSectionForm';
+import { loadUserData } from '../API/DataAccessLayer';
 
 type UserData = {
   email: string;
@@ -77,46 +76,6 @@ function UserPage() {
 }
 
 export default UserPage;
-
-async function loadUserData(urlUserId: string): Promise<Response> {
-  const { data: sessionData } = await dbClient.auth.getSession();
-  const currentSession = sessionData.session;
-  if (!currentSession) {
-    return redirect('/');
-  }
-
-  const userQuery = await dbClient
-    .from('user_info')
-    .select(
-      `
-      id,
-      full_name,
-      email,
-      songs(
-        id,
-        artist_name,
-        song_name,
-        created_at,
-        sections(
-          id,
-          name,
-          status
-        )
-      )
-    `
-    )
-    .eq('id', urlUserId)
-    .order('created_at', {
-      foreignTable: 'songs',
-      ascending: false,
-    });
-
-  if (userQuery.data?.length === 0) {
-    return redirect('/');
-  }
-
-  return json({ ...userQuery.data?.at(0) });
-}
 
 export async function loader({ params }: any): Promise<Response> {
   return await loadUserData(params.userId);

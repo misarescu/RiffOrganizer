@@ -2,22 +2,11 @@ import React from 'react';
 import Card from './UI/Card';
 import Section from './Section';
 import Button from './UI/Button';
-import { songsActions } from '../store/songs-slice';
+import { SongType, songsActions } from '../store/songs-slice';
 import { useDispatch } from 'react-redux';
-import dbClient from '../API/dbClient';
+import { removeSong } from '../API/DataAccessLayer';
 
-function SongCard(props: {
-  song: {
-    id: string;
-    artist_name: string;
-    song_name: string;
-    sections?: {
-      id: string;
-      name: string;
-      status: string;
-    }[];
-  };
-}) {
+function SongCard(props: { song: SongType }) {
   const dispatch = useDispatch();
 
   function addSectionHandler() {
@@ -25,11 +14,7 @@ function SongCard(props: {
   }
 
   async function removeSongHandler() {
-    console.log('Song to be removed: %o', props.song);
-    const { data, error } = await dbClient
-      .from('songs')
-      .delete()
-      .eq('id', props.song.id);
+    const { data, error } = await removeSong(props.song);
     dispatch(songsActions.removeSong(props.song));
   }
 
