@@ -4,6 +4,7 @@ import HomePage from './pages/Home';
 import UserPage, { loader as userPageLoader } from './pages/User';
 import { Provider } from 'react-redux';
 import store from './store/index';
+import PasswordResetPage from './pages/PasswordReset';
 
 // TODO: add form actions for the form submissions to work with reac-router-dom
 const router = createBrowserRouter([
@@ -17,6 +18,12 @@ const router = createBrowserRouter([
         id: 'user-page',
         loader: userPageLoader,
         element: <UserPage />,
+      },
+      {
+        path: '/password-reset/:userId',
+        id: 'password-reset',
+        // loader: () => {},
+        element: <PasswordResetPage />,
       },
     ],
   },

@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Modal from './UI/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreStateType } from '../store';
-import { useNavigate } from 'react-router-dom';
+import { useResolvedPath, useNavigate } from 'react-router-dom';
 import Button from './UI/Button';
 import { uiActions } from '../store/ui-slice';
 import { userActions } from '../store/user-slice';
@@ -13,7 +13,8 @@ import dbClient from '../API/dbClient';
 import useInput from './hooks/use-input';
 
 function LoginForm() {
-  // const userDetails = useGetUserDetails();
+  const currentPath = window.location.href;
+  const [isPasswordForgotten, setIsPasswordForgotten] = useState(false);
   const userEmail = useRef<HTMLInputElement>(null);
   const userPassword = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ function LoginForm() {
   const passwordInput = useInput((value: string) => value.trim() !== '');
 
   function formValidationCondition() {
+    if (isPasswordForgotten) return emailInput.isValid;
+
     return emailInput.isValid && passwordInput.isValid;
   }
 
@@ -52,12 +55,35 @@ function LoginForm() {
     navigate(`/user/${data.user?.id}`);
   }
 
+  async function resetPassword() {
+    const { data: userData, error: userError } = await dbClient
+      .from('user_info')
+      .select('id')
+      .eq('email', userEmail.current?.value as string);
+
+    if (userData?.at(0)?.id) {
+      const { data, error } = await dbClient.auth.resetPasswordForEmail(
+        userEmail.current?.value as string,
+        {
+          redirectTo: `password-reset/${userData?.at(0)?.id}`,
+        }
+      );
+      // console.log(
+      //   'redirect to %s',
+      //   `${currentPath}password-reset/${userData?.at(0)?.id}`
+      // );
+    } else {
+      alert('no user with this email address');
+    }
+  }
+
   function closeModalHandler() {
     dispatch(uiActions.closeLoginForm());
   }
 
   function loginHandler() {
-    signInWithEmail();
+    if (isPasswordForgotten) resetPassword();
+    else signInWithEmail();
   }
 
   return isVisible ? (
@@ -73,20 +99,29 @@ function LoginForm() {
           onBlur={emailInput.onBlurHandler}
           ref={userEmail}
         />
-        <FormInput
-          inputLabel='Password'
-          inputId='user-password'
-          inputType='password'
-          errorMessage='incorrect password'
-          hasError={passwordInput.hasError}
-          onChange={passwordInput.onChangeHandler}
-          onBlur={passwordInput.onBlurHandler}
-          ref={userPassword}
-        />
+        {!isPasswordForgotten ? (
+          <FormInput
+            inputLabel='Password'
+            inputId='user-password'
+            inputType='password'
+            errorMessage='incorrect password'
+            hasError={passwordInput.hasError}
+            onChange={passwordInput.onChangeHandler}
+            onBlur={passwordInput.onBlurHandler}
+            ref={userPassword}
+          />
+        ) : null}
+
         <FormButtonList>
-          <Button outline>Forgot password</Button>
+          <Button
+            outline
+            onClick={() => {
+              setIsPasswordForgotten((state) => !state);
+            }}>
+            {!isPasswordForgotten ? 'Forgot password' : 'Back'}
+          </Button>
           <Button onClick={loginHandler} disabled={!formIsValid}>
-            Log In
+            {!isPasswordForgotten ? 'Log In' : 'Reset Password'}
           </Button>
         </FormButtonList>
       </Form>
