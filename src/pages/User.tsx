@@ -30,8 +30,15 @@ type UserData = {
 function UserPage() {
   const userData = useRouteLoaderData('user-page') as UserData;
   const dispatch = useDispatch();
-  const songsDataStore = useSelector(
-    (state: StoreStateType) => state.songs.songList
+  const songFilter = useSelector(
+    (state: StoreStateType) => state.songs.songFilter
+  );
+  const songsDataStore = useSelector((state: StoreStateType) =>
+    state.songs.songList.filter(
+      (song) =>
+        song.song_name?.toLowerCase().includes(songFilter.toLowerCase()) ||
+        song.artist_name?.toLowerCase().includes(songFilter.toLowerCase())
+    )
   );
 
   useEffect(() => {
