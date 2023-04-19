@@ -11,6 +11,7 @@ import useInput from './UI/hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import dbClient from '../API/dbClient';
+import { insertSections } from '../API/DataAccessLayer';
 
 type SectionType = { name?: string; status?: string; song_id: string };
 
@@ -71,10 +72,13 @@ function AddSongForm() {
         } as SectionType;
       });
 
-    const { data: sectionsData, error: sectionsError } = await dbClient
-      .from('sections')
-      .insert(selectedSections)
-      .select();
+    // const { data: sectionsData, error: sectionsError } = await dbClient
+    //   .from('sections')
+    //   .insert(selectedSections)
+    //   .select();
+    const { data: sectionsData, error: sectionsError } = await insertSections(
+      selectedSections
+    );
 
     // update the store to update ui...
     const newSongForStore = {
@@ -84,8 +88,6 @@ function AddSongForm() {
       id: songId,
       sections: sectionsData as [],
     };
-
-    // console.log('newSongForStore: %o', newSongForStore);
 
     dispatch(songsActions.addSong(newSongForStore));
     songNameInput.reset();
