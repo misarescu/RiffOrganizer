@@ -89,10 +89,7 @@ export async function getUserByEmail(email: string) {
 export async function insertSections(
   sections: Database['public']['Tables']['sections']['Insert'][]
 ) {
-  const { data: sectionsData, error: sectionsError } = await dbClient
-    .from('sections')
-    .insert(sections)
-    .select();
+  return await dbClient.from('sections').insert(sections).select();
 }
 
 export async function removeSong(song: SongType) {

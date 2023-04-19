@@ -3,12 +3,10 @@ import { useDispatch } from 'react-redux';
 import { songsActions } from '../../store/songs-slice';
 import dbClient from '../../API/dbClient';
 import useClickedOutside from './hooks/use-clicked-outside';
+import { Database } from '../../API/dbTypes';
 
-type SectionType = {
-  id: string;
-  name: string;
-  status: string;
-};
+// TODO: check new type import here :)
+type SectionType = Database['public']['Tables']['sections']['Row'];
 
 type DropdownType = {
   section: SectionType;

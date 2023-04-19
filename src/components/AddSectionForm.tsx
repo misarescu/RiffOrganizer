@@ -95,15 +95,10 @@ function AddSectionForm() {
       } as SectionType);
     }
 
-    // const { data: sectionsData, error: sectionsError } = await dbClient
-    //   .from('sections')
-    //   .insert(newSections)
-    //   .select();
-
     console.log(newSections);
 
     const { data, error } = await insertSections(newSections);
-    dispatch(songsActions.addSections(data as SectionType[]));
+    dispatch(songsActions.addSections(data as SectionType[])); // make asyncThunk
 
     console.log('the new section list is %o', newSections);
 
