@@ -10,7 +10,6 @@ import Button from './UI/Button';
 import useInput from './UI/hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
-import dbClient from '../API/dbClient';
 import { insertSections, insertSong } from '../API/DataAccessLayer';
 
 type SectionType = { name?: string; status?: string; song_id: string };
