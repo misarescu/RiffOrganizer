@@ -11,8 +11,9 @@ import useInput from './UI/hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import { insertSections, insertSong } from '../API/DataAccessLayer';
+import { SectionType } from '../store/songs-slice';
 
-type SectionType = { name?: string; status?: string; song_id: string };
+type NewSectionType = Omit<SectionType, 'id'>;
 
 function AddSongForm() {
   const fetcher = useFetcher();
@@ -58,14 +59,14 @@ function AddSongForm() {
 
     const songId = songsData?.at(0)?.id;
 
-    const selectedSections: SectionType[] = sectionList
+    const selectedSections: NewSectionType[] = sectionList
       .filter((section) => section.ref.current?.checked === true) // only desired sections
       .map((section) => {
         return {
           song_id: songId,
           name: section.name,
           status: 'not started',
-        } as SectionType;
+        } as NewSectionType;
       });
 
     const { data: sectionsData } = await insertSections(selectedSections);
