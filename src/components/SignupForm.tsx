@@ -8,7 +8,6 @@ import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
 import useInput from './UI/hooks/use-input';
-import dbClient from '../API/dbClient';
 import { createUser } from '../API/DataAccessLayer';
 
 function SignupForm() {

@@ -10,9 +10,7 @@ import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import FormButtonList from './UI/FormButtonList';
 import Button from './UI/Button';
-import { Database } from '../API/dbTypes';
 import { insertSections } from '../API/DataAccessLayer';
-import dbClient from '../API/dbClient';
 
 function AddSectionForm() {
   const fetcher = useFetcher();

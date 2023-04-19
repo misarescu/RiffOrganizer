@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import Dropdown from './UI/Dropdown';
 import { SectionType } from '../store/songs-slice';
 
@@ -31,7 +31,6 @@ function hoverColorMap(status: string): string {
 function Section(props: SectionType) {
   const sectionColorClass = statusColorMap(props.status as string);
   const hoverColorClass = hoverColorMap(props.status as string);
-  // console.log(sectionColorClass);
 
   // TODO: maybe use a Map instead of an object array
 

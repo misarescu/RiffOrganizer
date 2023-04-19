@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Modal from './UI/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { StoreStateType } from '../store';
-import { useResolvedPath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from './UI/Button';
 import { uiActions } from '../store/ui-slice';
 import { userActions } from '../store/user-slice';
