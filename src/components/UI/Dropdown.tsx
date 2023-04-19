@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { songsActions } from '../../store/songs-slice';
-import dbClient from '../../API/dbClient';
 import useClickedOutside from './hooks/use-clicked-outside';
 import { SectionType } from '../../store/songs-slice';
 import { removeSection, updateSection } from '../../API/DataAccessLayer';
