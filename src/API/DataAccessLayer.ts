@@ -110,3 +110,10 @@ export async function insertSong(
 export async function removeSong(song: SongType) {
   return await dbClient.from('songs').delete().eq('id', song.id);
 }
+
+export async function resetPasswordWithEmail(userId: string, email: string) {
+  const currentPath = window.location.href;
+  return await dbClient.auth.resetPasswordForEmail(email, {
+    redirectTo: `${currentPath}password-reset/${userId}`,
+  });
+}

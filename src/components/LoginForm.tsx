@@ -9,12 +9,14 @@ import { userActions } from '../store/user-slice';
 import { Form } from 'react-router-dom';
 import FormInput from './UI/FormInput';
 import FormButtonList from './UI/FormButtonList';
-import dbClient from '../API/dbClient';
 import useInput from './UI/hooks/use-input';
-import { getUserByEmail, signInWithEmail } from '../API/DataAccessLayer';
+import {
+  getUserByEmail,
+  resetPasswordWithEmail,
+  signInWithEmail,
+} from '../API/DataAccessLayer';
 
 function LoginForm() {
-  const currentPath = window.location.href;
   const [isPasswordForgotten, setIsPasswordForgotten] = useState(false);
   const userEmail = useRef<HTMLInputElement>(null);
   const userPassword = useRef<HTMLInputElement>(null);
@@ -64,11 +66,9 @@ function LoginForm() {
     );
 
     if (userData?.at(0)?.id) {
-      const { data, error } = await dbClient.auth.resetPasswordForEmail(
-        userEmail.current?.value as string,
-        {
-          redirectTo: `${currentPath}password-reset/${userData?.at(0)?.id}`,
-        }
+      resetPasswordWithEmail(
+        userData?.at(0)?.id as string,
+        userEmail.current?.value as string
       );
 
       dispatch(uiActions.closeLoginForm());
