@@ -92,6 +92,21 @@ export async function insertSections(
   return await dbClient.from('sections').insert(sections).select();
 }
 
+export async function insertSong(
+  artistName: string,
+  songName: string,
+  userId: string
+) {
+  return await dbClient
+    .from('songs')
+    .insert({
+      artist_name: artistName,
+      song_name: songName,
+      user_id: userId,
+    })
+    .select();
+}
+
 export async function removeSong(song: SongType) {
   return await dbClient.from('songs').delete().eq('id', song.id);
 }

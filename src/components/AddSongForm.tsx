@@ -11,7 +11,7 @@ import useInput from './UI/hooks/use-input';
 import FormSongSectionList from './UI/FormSongSectionList';
 import FormSongSection from './UI/FormSongSection';
 import dbClient from '../API/dbClient';
-import { insertSections } from '../API/DataAccessLayer';
+import { insertSections, insertSong } from '../API/DataAccessLayer';
 
 type SectionType = { name?: string; status?: string; song_id: string };
 
@@ -51,14 +51,11 @@ function AddSongForm() {
   }
 
   async function addSongHandler() {
-    const { data: songsData, error: songsError } = await dbClient
-      .from('songs')
-      .insert({
-        artist_name: artistName.current?.value.trim(),
-        song_name: songName.current?.value.trim(),
-        user_id: userId,
-      })
-      .select();
+    const { data: songsData } = await insertSong(
+      artistName.current?.value.trim() as string,
+      songName.current?.value.trim() as string,
+      userId
+    );
 
     const songId = songsData?.at(0)?.id;
 
@@ -72,13 +69,7 @@ function AddSongForm() {
         } as SectionType;
       });
 
-    // const { data: sectionsData, error: sectionsError } = await dbClient
-    //   .from('sections')
-    //   .insert(selectedSections)
-    //   .select();
-    const { data: sectionsData, error: sectionsError } = await insertSections(
-      selectedSections
-    );
+    const { data: sectionsData } = await insertSections(selectedSections);
 
     // update the store to update ui...
     const newSongForStore = {
