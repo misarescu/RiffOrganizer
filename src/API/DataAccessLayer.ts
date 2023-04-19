@@ -1,6 +1,6 @@
 import { json, redirect } from 'react-router-dom';
 import dbClient from './dbClient';
-import { SongType } from '../store/songs-slice';
+import { SectionType, SongType } from '../store/songs-slice';
 import { AuthResponse } from '@supabase/supabase-js';
 import { Database } from './dbTypes';
 
@@ -84,6 +84,17 @@ export async function signInWithEmail(
 
 export async function getUserByEmail(email: string) {
   return await dbClient.from('user_info').select('id').eq('email', email);
+}
+
+export async function updateSection(newSection: SectionType) {
+  return await dbClient
+    .from('sections')
+    .update(newSection)
+    .eq('id', newSection.id);
+}
+
+export async function removeSection(targetSection: SectionType) {
+  return await dbClient.from('sections').delete().eq('id', targetSection.id);
 }
 
 export async function insertSections(

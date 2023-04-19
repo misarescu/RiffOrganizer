@@ -4,6 +4,7 @@ import { songsActions } from '../../store/songs-slice';
 import dbClient from '../../API/dbClient';
 import useClickedOutside from './hooks/use-clicked-outside';
 import { SectionType } from '../../store/songs-slice';
+import { removeSection, updateSection } from '../../API/DataAccessLayer';
 
 type DropdownType = {
   section: SectionType;
@@ -29,22 +30,6 @@ function Dropdown(props: DropdownType) {
     { ref: useRef<HTMLInputElement>(null), status: 'finished' }, // 3
   ];
 
-  async function updateSectionOnBackend(newSection: SectionType) {
-    // send update to the backend
-    const { data, error } = await dbClient
-      .from('sections')
-      .update(newSection)
-      .eq('id', newSection.id);
-  }
-
-  async function removeSectionOnBackend(targetSection: SectionType) {
-    //send the id of the section to be removed to the backend
-    const { error } = await dbClient
-      .from('sections')
-      .delete()
-      .eq('id', targetSection.id);
-  }
-
   function selectionHandler() {
     setHideDropDown(true);
     const newSection: SectionType = {
@@ -55,11 +40,11 @@ function Dropdown(props: DropdownType) {
     };
 
     if (newSection.status === 'remove section') {
-      removeSectionOnBackend(newSection);
+      removeSection(newSection);
       dispatch(songsActions.removeSection(newSection));
     }
 
-    updateSectionOnBackend(newSection);
+    updateSection(newSection);
     dispatch(songsActions.updateSection(newSection));
   }
 
