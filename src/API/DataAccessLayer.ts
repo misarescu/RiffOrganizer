@@ -4,6 +4,10 @@ import { SectionType, SongType } from '../store/songs-slice';
 import { AuthResponse } from '@supabase/supabase-js';
 import { Database } from './dbTypes';
 
+export async function logOut() {
+  dbClient.auth.signOut();
+}
+
 export async function loadUserData(urlUserId: string): Promise<Response> {
   const { data: sessionData } = await dbClient.auth.getSession();
   const currentSession = sessionData.session;

@@ -9,12 +9,7 @@ import logoImgUrl from '../../assets/Logo.png';
 import defaultUserImgUrl from '../../assets/DefaultUserIcon.svg';
 import Button from './Button';
 import Search from './Search';
-import dbClient from '../../API/dbClient';
-
-// maybe a burger button could be better than the user profile
-// import burgerMenuImgUrl from '../../assets/BurgerMenu.svg';
-
-const USER_NAME = 'Mihai Smecheru';
+import { logOut } from '../../API/DataAccessLayer';
 
 function NavBar() {
   // get user authenticated status
@@ -38,7 +33,7 @@ function NavBar() {
 
   function logOutHandler() {
     dispatch(userActions.logout());
-    dbClient.auth.signOut();
+    logOut();
     navigate('/');
   }
 
