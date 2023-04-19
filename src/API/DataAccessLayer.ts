@@ -8,6 +8,12 @@ export async function logOut() {
   dbClient.auth.signOut();
 }
 
+export async function updateUserPassword(newPassword: string) {
+  return await dbClient.auth.updateUser({
+    password: newPassword,
+  });
+}
+
 export async function loadUserData(urlUserId: string): Promise<Response> {
   const { data: sessionData } = await dbClient.auth.getSession();
   const currentSession = sessionData.session;

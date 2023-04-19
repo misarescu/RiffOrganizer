@@ -6,6 +6,7 @@ import FormButtonList from '../components/UI/FormButtonList';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
 import dbClient from '../API/dbClient';
+import { updateUserPassword } from '../API/DataAccessLayer';
 
 function PasswordResetPage() {
   // const { userId } = useParams();
@@ -23,9 +24,7 @@ function PasswordResetPage() {
 
   async function passwordResetHandler() {
     const newPassword: string = passwordInput.value ? passwordInput.value : '';
-    const { data, error } = await dbClient.auth.updateUser({
-      password: newPassword,
-    });
+    const { data, error } = await updateUserPassword(newPassword);
 
     if (error && error.message) {
       alert(error?.message);
