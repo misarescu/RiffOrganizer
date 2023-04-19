@@ -32,23 +32,23 @@ export interface Database {
       songs: {
         Row: {
           artist_name: string | null;
-          created_at: string | null;
           id: string;
           song_name: string | null;
+          updated_at: string | null;
           user_id: string;
         };
         Insert: {
           artist_name?: string | null;
-          created_at?: string | null;
           id?: string;
           song_name?: string | null;
+          updated_at?: string | null;
           user_id: string;
         };
         Update: {
           artist_name?: string | null;
-          created_at?: string | null;
           id?: string;
           song_name?: string | null;
+          updated_at?: string | null;
           user_id?: string;
         };
       };

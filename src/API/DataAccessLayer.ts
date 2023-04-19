@@ -32,7 +32,7 @@ export async function loadUserData(urlUserId: string): Promise<Response> {
         id,
         artist_name,
         song_name,
-        created_at,
+        updated_at,
         sections(
           id,
           name,
@@ -42,7 +42,7 @@ export async function loadUserData(urlUserId: string): Promise<Response> {
     `
     )
     .eq('id', urlUserId)
-    .order('created_at', {
+    .order('updated_at', {
       foreignTable: 'songs',
       ascending: false,
     });
