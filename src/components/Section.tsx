@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Dropdown from './UI/Dropdown';
-
-type SectionType = {
-  id: string;
-  name: string;
-  status: string;
-};
+import { SectionType } from '../store/songs-slice';
 
 function statusColorMap(status: string): string {
   switch (status) {
@@ -34,8 +29,8 @@ function hoverColorMap(status: string): string {
 }
 
 function Section(props: SectionType) {
-  const sectionColorClass = statusColorMap(props.status);
-  const hoverColorClass = hoverColorMap(props.status);
+  const sectionColorClass = statusColorMap(props.status as string);
+  const hoverColorClass = hoverColorMap(props.status as string);
   // console.log(sectionColorClass);
 
   // TODO: maybe use a Map instead of an object array

@@ -4,9 +4,7 @@ import { songsActions } from '../../store/songs-slice';
 import dbClient from '../../API/dbClient';
 import useClickedOutside from './hooks/use-clicked-outside';
 import { Database } from '../../API/dbTypes';
-
-// TODO: check new type import here :)
-type SectionType = Database['public']['Tables']['sections']['Row'];
+import { SectionType } from '../../store/songs-slice';
 
 type DropdownType = {
   section: SectionType;

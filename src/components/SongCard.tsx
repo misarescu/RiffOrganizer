@@ -49,6 +49,7 @@ function SongCard(props: { song: SongType }) {
             <li key={section.id} className='rounded-lg w-fit h-fit'>
               <Section
                 id={section.id}
+                song_id={section.song_id}
                 name={section.name}
                 status={section.status}
               />
