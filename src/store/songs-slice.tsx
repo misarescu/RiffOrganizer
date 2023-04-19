@@ -6,23 +6,11 @@ export type SongType = Database['public']['Tables']['songs']['Row'] & {
   sections: Array<SectionType>;
 };
 
-// export type SectionType = {
-//   id: string;
-//   name: string;
-//   status: string;
-// };
-
-// export type SongType = {
-//   id: string;
-//   artist_name: string;
-//   song_name: string;
-//   sections: Array<SectionType>;
-// };
-
 export type SongsInitialStateType = {
   isSongFormVisible: boolean;
   isSectionFormVisible: boolean;
   activeSongToAddSection: string;
+  songFilter: string;
   songList: Array<SongType>;
 };
 
@@ -30,6 +18,7 @@ const initialState: SongsInitialStateType = {
   isSongFormVisible: false,
   isSectionFormVisible: false,
   activeSongToAddSection: '',
+  songFilter: '',
   songList: [],
 };
 
@@ -114,6 +103,12 @@ const songsSlice = createSlice({
         }
         if (idx >= 0) state.songList[i].sections.splice(idx, 1);
       }
+    },
+    setSongFilter(
+      state: SongsInitialStateType,
+      action: { type: string; payload: string }
+    ) {
+      state.songFilter = action.payload;
     },
   },
 });

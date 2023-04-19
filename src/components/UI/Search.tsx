@@ -1,6 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { songsActions } from '../../store/songs-slice';
 
 function Search() {
+  const dispatch = useDispatch();
+  function searchFilterHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    // register changes only after a short amount of typing
+    setTimeout(() => {
+      dispatch(songsActions.setSongFilter(event.target.value));
+    }, 500);
+  }
+
   return (
     <>
       <form
@@ -28,6 +38,7 @@ function Search() {
             className='w-full block rounded-md pl-9 text-2xl text-bold font-semibold font-serif placeholder-slate-400 dark:placeholder-slate-600 text-slate-800 dark:text-slate-200 bg-slate-200 dark:bg-slate-800'
             placeholder='Search'
             type='text'
+            onChange={searchFilterHandler}
           />
         </div>
       </form>
