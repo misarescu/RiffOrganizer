@@ -5,11 +5,9 @@ import useInput from '../components/UI/hooks/use-input';
 import FormButtonList from '../components/UI/FormButtonList';
 import Button from '../components/UI/Button';
 import Card from '../components/UI/Card';
-import dbClient from '../API/dbClient';
 import { updateUserPassword } from '../API/DataAccessLayer';
 
 function PasswordResetPage() {
-  // const { userId } = useParams();
   const navigate = useNavigate();
   const passwordInput = useInput((value: string) => value.trim().length >= 6);
   const confirmPasswordInput = useInput(
